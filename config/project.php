@@ -21,7 +21,7 @@ return [
             'short_code' => 'hi',
         ],
     ],
-    'registered_user_role' => 'User',
+    'registered_user_role' => 'Pro',
     'pagination'           => [
         'options' => [
             10,

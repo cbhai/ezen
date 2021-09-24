@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Listeners\AssignRoleForRegisteredUser;
+use App\Listeners\SeedDataForNewUser;
 use App\Models\BusinessProfile;
 use App\Models\Customer;
 use App\Models\Estimate;
@@ -29,6 +30,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
             AssignRoleForRegisteredUser::class,
+            SeedDataForNewUser::class,
         ],
     ];
 
