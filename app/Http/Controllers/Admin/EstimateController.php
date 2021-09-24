@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Estimate;
+use Gate;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+class EstimateController extends Controller
+{
+    public function index()
+    {
+        abort_if(Gate::denies('estimate_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return view('admin.estimate.index');
+    }
+
+    public function create()
+    {
+        abort_if(Gate::denies('estimate_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return view('admin.estimate.create');
+    }
+
+    public function edit(Estimate $estimate)
+    {
+        abort_if(Gate::denies('estimate_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return view('admin.estimate.edit', compact('estimate'));
+    }
+
+    public function show(Estimate $estimate)
+    {
+        abort_if(Gate::denies('estimate_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $estimate->load('customer', 'owner');
+
+        return view('admin.estimate.show', compact('estimate'));
+    }
+}
