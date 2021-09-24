@@ -7,8 +7,8 @@
                 <h6 class="card-title">
                     {{ trans('global.view') }}
                     {{ trans('cruds.room.title_singular') }}:
-                    {{ trans('cruds.room.fields.id') }}
-                    {{ $room->id }}
+                    {{ trans('cruds.room.fields.name') }}
+                    {{ $room->name }}
                 </h6>
             </div>
         </div>
@@ -17,14 +17,16 @@
             <div class="pt-3">
                 <table class="table table-view">
                     <tbody class="bg-white">
-                        <tr>
-                            <th>
-                                {{ trans('cruds.room.fields.id') }}
-                            </th>
-                            <td>
-                                {{ $room->id }}
-                            </td>
-                        </tr>
+                        @can('user_access')
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.room.fields.id') }}
+                                </th>
+                                <td>
+                                    {{ $room->id }}
+                                </td>
+                            </tr>
+                        @endcan
                         <tr>
                             <th>
                                 {{ trans('cruds.room.fields.name') }}
@@ -41,22 +43,24 @@
                                 {{ $room->description }}
                             </td>
                         </tr>
-                        <tr>
-                            <th>
-                                {{ trans('cruds.room.fields.owner') }}
-                            </th>
-                            <td>
-                                @if($room->owner)
-                                    <span class="badge badge-relationship">{{ $room->owner->name ?? '' }}</span>
-                                @endif
-                            </td>
-                        </tr>
+                        @can('user_access')
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.room.fields.owner') }}
+                                </th>
+                                <td>
+                                    @if($room->owner)
+                                        <span class="badge badge-relationship">{{ $room->owner->name ?? '' }}</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endcan
                     </tbody>
                 </table>
             </div>
             <div class="form-group">
                 @can('room_edit')
-                    <a href="{{ route('admin.rooms.edit', $room) }}" class="btn btn-indigo mr-2">
+                    <a href="{{ route('admin.rooms.edit', $room) }}" class="mr-2 btn btn-indigo">
                         {{ trans('global.edit') }}
                     </a>
                 @endcan

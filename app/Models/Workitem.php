@@ -50,6 +50,7 @@ class Workitem extends Model
         'description',
         'rate',
         'unit',
+        'is_master',
     ];
 
     public function room()

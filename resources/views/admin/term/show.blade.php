@@ -7,8 +7,8 @@
                 <h6 class="card-title">
                     {{ trans('global.view') }}
                     {{ trans('cruds.term.title_singular') }}:
-                    {{ trans('cruds.term.fields.id') }}
-                    {{ $term->id }}
+                    {{-- {{ trans('cruds.term.fields.id') }}
+                    {{ $term->id }} --}}
                 </h6>
             </div>
         </div>
@@ -17,6 +17,7 @@
             <div class="pt-3">
                 <table class="table table-view">
                     <tbody class="bg-white">
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.term.fields.id') }}
@@ -25,6 +26,7 @@
                                 {{ $term->id }}
                             </td>
                         </tr>
+                        @endcan
                         <tr>
                             <th>
                                 {{ trans('cruds.term.fields.terms') }}
@@ -33,6 +35,7 @@
                                 {{ $term->terms }}
                             </td>
                         </tr>
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.term.fields.owner') }}
@@ -43,12 +46,13 @@
                                 @endif
                             </td>
                         </tr>
+                        @endcan
                     </tbody>
                 </table>
             </div>
             <div class="form-group">
                 @can('term_edit')
-                    <a href="{{ route('admin.terms.edit', $term) }}" class="btn btn-indigo mr-2">
+                    <a href="{{ route('admin.terms.edit', $term) }}" class="mr-2 btn btn-indigo">
                         {{ trans('global.edit') }}
                     </a>
                 @endcan

@@ -22,7 +22,7 @@
     </div>
 
     <div class="form-group">
-        <button class="btn btn-indigo mr-2" type="submit">
+        <button class="mr-2 btn btn-indigo" type="submit">
             {{ trans('global.save') }}
         </button>
         <a href="{{ route('admin.rooms.index') }}" class="btn btn-secondary">

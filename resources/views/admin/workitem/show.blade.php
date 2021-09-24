@@ -5,10 +5,10 @@
         <div class="card-header">
             <div class="card-header-container">
                 <h6 class="card-title">
-                    {{ trans('global.view') }}
+                    {{-- {{ trans('global.view') }} --}}
                     {{ trans('cruds.workitem.title_singular') }}:
-                    {{ trans('cruds.workitem.fields.id') }}
-                    {{ $workitem->id }}
+                    {{-- {{ trans('cruds.workitem.fields.id') }} --}}
+                    {{ $workitem->name }}
                 </h6>
             </div>
         </div>
@@ -17,6 +17,7 @@
             <div class="pt-3">
                 <table class="table table-view">
                     <tbody class="bg-white">
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.workitem.fields.id') }}
@@ -25,6 +26,7 @@
                                 {{ $workitem->id }}
                             </td>
                         </tr>
+                        @endcan
                         <tr>
                             <th>
                                 {{ trans('cruds.workitem.fields.room') }}
@@ -67,6 +69,7 @@
                                 {{ $workitem->unit_label }}
                             </td>
                         </tr>
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.workitem.fields.owner') }}
@@ -77,12 +80,13 @@
                                 @endif
                             </td>
                         </tr>
+                        @endcan
                     </tbody>
                 </table>
             </div>
             <div class="form-group">
                 @can('workitem_edit')
-                    <a href="{{ route('admin.workitems.edit', $workitem) }}" class="btn btn-indigo mr-2">
+                    <a href="{{ route('admin.workitems.edit', $workitem) }}" class="mr-2 btn btn-indigo">
                         {{ trans('global.edit') }}
                     </a>
                 @endcan

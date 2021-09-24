@@ -34,7 +34,8 @@ class Create extends Component
             'room.name' => [
                 'string',
                 'required',
-                'unique:rooms,name',
+                //'unique:rooms,name, null, owner_id,' . auth()->id(),
+                //'name' => 'unique:games,name,NULL,id,user_id,'.$user->id
             ],
             'room.description' => [
                 'string',

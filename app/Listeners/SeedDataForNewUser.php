@@ -30,6 +30,7 @@ class SeedDataForNewUser
     public function handle($event)
     {
 
+        //dd($event->user->id);
         $user_id =  $event->user->id;
 
         //$user_id = auth()->user()->id;
@@ -48,6 +49,7 @@ class SeedDataForNewUser
             ];
             //$rooms[] = $room;
             //$newRoom = Room::insert($room);
+            //dd($room);
             $newRoom = Room::create($room);
             $newRoomId = $newRoom->id;
 

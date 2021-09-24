@@ -7,8 +7,8 @@
                 <h6 class="card-title">
                     {{ trans('global.view') }}
                     {{ trans('cruds.estimate.title_singular') }}:
-                    {{ trans('cruds.estimate.fields.id') }}
-                    {{ $estimate->id }}
+                    {{-- {{ trans('cruds.estimate.fields.id') }} --}}
+                    {{ $estimate->title }}
                 </h6>
             </div>
         </div>
@@ -17,6 +17,7 @@
             <div class="pt-3">
                 <table class="table table-view">
                     <tbody class="bg-white">
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.estimate.fields.id') }}
@@ -25,6 +26,7 @@
                                 {{ $estimate->id }}
                             </td>
                         </tr>
+                        @endcan
                         <tr>
                             <th>
                                 {{ trans('cruds.estimate.fields.title') }}
@@ -83,6 +85,7 @@
                                 {{ $estimate->total }}
                             </td>
                         </tr>
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.estimate.fields.owner') }}
@@ -93,12 +96,13 @@
                                 @endif
                             </td>
                         </tr>
+                        @endcan
                     </tbody>
                 </table>
             </div>
             <div class="form-group">
                 @can('estimate_edit')
-                    <a href="{{ route('admin.estimates.edit', $estimate) }}" class="btn btn-indigo mr-2">
+                    <a href="{{ route('admin.estimates.edit', $estimate) }}" class="mr-2 btn btn-indigo">
                         {{ trans('global.edit') }}
                     </a>
                 @endcan

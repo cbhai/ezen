@@ -2,14 +2,14 @@
     <div class="card-controls sm:flex">
         <div class="w-full sm:w-1/2">
             Per page:
-            <select wire:model="perPage" class="form-select w-full sm:w-1/6">
+            <select wire:model="perPage" class="w-full form-select sm:w-1/6">
                 @foreach($paginationOptions as $value)
                     <option value="{{ $value }}">{{ $value }}</option>
                 @endforeach
             </select>
 
             @can('workitem_delete')
-                <button class="btn btn-rose ml-3 disabled:opacity-50 disabled:cursor-not-allowed" type="button" wire:click="confirm('deleteSelected')" wire:loading.attr="disabled" {{ $this->selectedCount ? '' : 'disabled' }}>
+                <button class="ml-3 btn btn-rose disabled:opacity-50 disabled:cursor-not-allowed" type="button" wire:click="confirm('deleteSelected')" wire:loading.attr="disabled" {{ $this->selectedCount ? '' : 'disabled' }}>
                     {{ __('Delete Selected') }}
                 </button>
             @endcan
@@ -26,7 +26,7 @@
         </div>
         <div class="w-full sm:w-1/2 sm:text-right">
             Search:
-            <input type="text" wire:model.debounce.300ms="search" class="w-full sm:w-1/3 inline-block" />
+            <input type="text" wire:model.debounce.300ms="search" class="inline-block w-full sm:w-1/3" />
         </div>
     </div>
     <div wire:loading.delay>
@@ -35,15 +35,17 @@
 
     <div class="overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="table table-index w-full">
+            <table class="table w-full table-index">
                 <thead>
                     <tr>
                         <th class="w-9">
                         </th>
+                        @can('user_access')
                         <th class="w-28">
                             {{ trans('cruds.workitem.fields.id') }}
                             @include('components.table.sort', ['field' => 'id'])
                         </th>
+                        @endcan
                         <th>
                             {{ trans('cruds.workitem.fields.room') }}
                             @include('components.table.sort', ['field' => 'room.name'])
@@ -60,10 +62,12 @@
                             {{ trans('cruds.workitem.fields.unit') }}
                             @include('components.table.sort', ['field' => 'unit'])
                         </th>
+                        @can('user_access')
                         <th>
                             {{ trans('cruds.workitem.fields.owner') }}
                             @include('components.table.sort', ['field' => 'owner.name'])
                         </th>
+                        @endcan
                         <th>
                         </th>
                     </tr>
@@ -74,9 +78,11 @@
                             <td>
                                 <input type="checkbox" value="{{ $workitem->id }}" wire:model="selected">
                             </td>
+                            @can('user_access')
                             <td>
                                 {{ $workitem->id }}
                             </td>
+                            @endcan
                             <td>
                                 @if($workitem->room)
                                     <span class="badge badge-relationship">{{ $workitem->room->name ?? '' }}</span>
@@ -91,25 +97,27 @@
                             <td>
                                 {{ $workitem->unit_label }}
                             </td>
+                            @can('user_access')
                             <td>
                                 @if($workitem->owner)
                                     <span class="badge badge-relationship">{{ $workitem->owner->name ?? '' }}</span>
                                 @endif
                             </td>
+                            @endcan
                             <td>
                                 <div class="flex justify-end">
                                     @can('workitem_show')
-                                        <a class="btn btn-sm btn-info mr-2" href="{{ route('admin.workitems.show', $workitem) }}">
+                                        <a class="mr-2 btn btn-sm btn-info" href="{{ route('admin.workitems.show', $workitem) }}">
                                             {{ trans('global.view') }}
                                         </a>
                                     @endcan
                                     @can('workitem_edit')
-                                        <a class="btn btn-sm btn-success mr-2" href="{{ route('admin.workitems.edit', $workitem) }}">
+                                        <a class="mr-2 btn btn-sm btn-success" href="{{ route('admin.workitems.edit', $workitem) }}">
                                             {{ trans('global.edit') }}
                                         </a>
                                     @endcan
                                     @can('workitem_delete')
-                                        <button class="btn btn-sm btn-rose mr-2" type="button" wire:click="confirm('delete', {{ $workitem->id }})" wire:loading.attr="disabled">
+                                        <button class="mr-2 btn btn-sm btn-rose" type="button" wire:click="confirm('delete', {{ $workitem->id }})" wire:loading.attr="disabled">
                                             {{ trans('global.delete') }}
                                         </button>
                                     @endcan

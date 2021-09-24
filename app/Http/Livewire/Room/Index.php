@@ -84,7 +84,10 @@ class Index extends Component
     {
         abort_if(Gate::denies('room_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Room::whereIn('id', $this->selected)->delete();
+        $room = Room::whereIn('id', $this->selected)->get();
+        $room->workitems->each->delete();
+        $room->delete();
+        //Room::whereIn('id', $this->selected)->delete();
 
         $this->resetSelected();
     }
@@ -93,6 +96,7 @@ class Index extends Component
     {
         abort_if(Gate::denies('room_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $room->workitems->each->delete();
         $room->delete();
     }
 }

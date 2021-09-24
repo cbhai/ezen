@@ -5,10 +5,10 @@
         <div class="card-header">
             <div class="card-header-container">
                 <h6 class="card-title">
-                    {{ trans('global.view') }}
+                    {{-- {{ trans('global.view') }} --}}
                     {{ trans('cruds.customer.title_singular') }}:
-                    {{ trans('cruds.customer.fields.id') }}
-                    {{ $customer->id }}
+                    {{-- {{ trans('cruds.customer.fields.first_name') }} --}}
+                    {{ $customer->first_name . ' ' . $customer->last_name }}
                 </h6>
             </div>
         </div>
@@ -17,6 +17,7 @@
             <div class="pt-3">
                 <table class="table table-view">
                     <tbody class="bg-white">
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.customer.fields.id') }}
@@ -25,6 +26,7 @@
                                 {{ $customer->id }}
                             </td>
                         </tr>
+                        @endcan
                         <tr>
                             <th>
                                 {{ trans('cruds.customer.fields.first_name') }}
@@ -101,6 +103,7 @@
                                 {{ $customer->description }}
                             </td>
                         </tr>
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.customer.fields.owner') }}
@@ -111,12 +114,13 @@
                                 @endif
                             </td>
                         </tr>
+                        @endcan
                     </tbody>
                 </table>
             </div>
             <div class="form-group">
                 @can('customer_edit')
-                    <a href="{{ route('admin.customers.edit', $customer) }}" class="btn btn-indigo mr-2">
+                    <a href="{{ route('admin.customers.edit', $customer) }}" class="mr-2 btn btn-indigo">
                         {{ trans('global.edit') }}
                     </a>
                 @endcan

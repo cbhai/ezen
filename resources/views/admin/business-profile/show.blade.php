@@ -5,10 +5,10 @@
         <div class="card-header">
             <div class="card-header-container">
                 <h6 class="card-title">
-                    {{ trans('global.view') }}
-                    {{ trans('cruds.businessProfile.title_singular') }}:
-                    {{ trans('cruds.businessProfile.fields.id') }}
-                    {{ $businessProfile->id }}
+                    {{-- {{ trans('global.view') }} --}}
+                    {{-- {{ trans('cruds.businessProfile.title_singular') }}: --}}
+                    {{ trans('cruds.businessProfile.fields.business_name') }}:
+                    {{ $businessProfile->business_name }}
                 </h6>
             </div>
         </div>
@@ -17,6 +17,7 @@
             <div class="pt-3">
                 <table class="table table-view">
                     <tbody class="bg-white">
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.businessProfile.fields.id') }}
@@ -25,6 +26,7 @@
                                 {{ $businessProfile->id }}
                             </td>
                         </tr>
+                        @endcan
                         <tr>
                             <th>
                                 {{ trans('cruds.businessProfile.fields.business_name') }}
@@ -109,6 +111,7 @@
                                 {{ $businessProfile->about }}
                             </td>
                         </tr>
+                        @can('user_access')
                         <tr>
                             <th>
                                 {{ trans('cruds.businessProfile.fields.owner') }}
@@ -119,12 +122,13 @@
                                 @endif
                             </td>
                         </tr>
+                        @endcan
                     </tbody>
                 </table>
             </div>
             <div class="form-group">
                 @can('business_profile_edit')
-                    <a href="{{ route('admin.business-profiles.edit', $businessProfile) }}" class="btn btn-indigo mr-2">
+                    <a href="{{ route('admin.business-profiles.edit', $businessProfile) }}" class="mr-2 btn btn-indigo">
                         {{ trans('global.edit') }}
                     </a>
                 @endcan

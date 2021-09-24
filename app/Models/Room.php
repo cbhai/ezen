@@ -29,8 +29,10 @@ class Room extends Model
     ];
 
     protected $fillable = [
+        'owner_id',
         'name',
         'description',
+        'is_master',
     ];
 
     protected $dates = [
@@ -42,6 +44,10 @@ class Room extends Model
     public function owner()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function workitems(){
+        return $this->hasMany(Workitem::class);
     }
 
     protected function serializeDate(DateTimeInterface $date)

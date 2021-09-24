@@ -14,7 +14,7 @@ class CreateWorkitemsTable extends Migration
             $table->longText('description');
             $table->decimal('rate', 15, 2);
             $table->string('unit');
-            $table->integer('is_master')->nullable();
+            $table->integer('is_master')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
