@@ -17,11 +17,12 @@ class EstimateDetailController extends Controller
         return view('admin.estimate-detail.index');
     }
 
-    public function create()
+    public function create($estimate_id = null)
     {
+        //dd($estimate_id);
         abort_if(Gate::denies('estimate_detail_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.estimate-detail.create');
+        return view('admin.estimate-detail.create', ['estimate_id' => $estimate_id]);
     }
 
     public function edit(EstimateDetail $estimateDetail)

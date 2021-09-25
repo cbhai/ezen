@@ -12,7 +12,8 @@
         </div>
 
         <div class="card-body">
-            @livewire('estimate.create')
+            @livewire('estimate.create', ['id' => $id])
+            {{-- @livewire('estimate.create') --}}
         </div>
     </div>
 </div>

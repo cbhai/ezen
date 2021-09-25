@@ -65,7 +65,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::resource('customers', CustomerController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Estimate
-    Route::resource('estimates', EstimateController::class, ['except' => ['store', 'update', 'destroy']]);
+    Route::get('estimates/create/{id?}', [
+        'uses' => 'App\Http\Controllers\Admin\EstimateController@create',
+    ])->name('estimates.create');
+    Route::resource('estimates', EstimateController::class, ['except' => ['create' , 'store', 'update', 'destroy']]);
+    //Route::resource('estimates', EstimateController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Rooms
     Route::resource('rooms', RoomController::class, ['except' => ['store', 'update', 'destroy']]);
@@ -74,7 +78,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::resource('workitems', WorkitemController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Estimate Detail
-    Route::resource('estimate-details', EstimateDetailController::class, ['except' => ['store', 'update', 'destroy']]);
+    Route::get('estimate-details/create/{estimate_id?}', [
+                    'uses' => 'App\Http\Controllers\Admin\EstimateDetailController@create',
+                    ])->name('estimate-details.create');
+   Route::resource('estimate-details', EstimateDetailController::class, ['except' => ['create','store', 'update', 'destroy']]);
+    //Route::resource('estimate-details', EstimateDetailController::class, ['except' => ['store', 'update', 'destroy']]);
 });
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'middleware' => ['auth']], function () {

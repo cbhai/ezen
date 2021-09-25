@@ -9,10 +9,11 @@
                     {{ trans('cruds.estimateDetail.title_singular') }}
                 </h6>
             </div>
-        </div>
 
         <div class="card-body">
-            @livewire('estimate-detail.create')
+            {{-- {{ $estimate_id }} --}}
+            @livewire('estimate-detail.create', ['estimate_id' => $estimate_id])
+            {{-- @livewire('estimate-detail.create') --}}
         </div>
     </div>
 </div>

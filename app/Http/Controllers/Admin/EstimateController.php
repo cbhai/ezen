@@ -17,18 +17,20 @@ class EstimateController extends Controller
         return view('admin.estimate.index');
     }
 
-    public function create()
+    public function create($id=null)
     {
+        //dd($id);
         abort_if(Gate::denies('estimate_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.estimate.create');
+        return view('admin.estimate.create', ['id' => $id]);
     }
 
     public function edit(Estimate $estimate)
     {
         abort_if(Gate::denies('estimate_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.estimate.edit', compact('estimate'));
+        return view('admin.estimate.create', ['id' => $estimate->id]);
+        //return view('admin.estimate.edit', compact('estimate'));
     }
 
     public function show(Estimate $estimate)
