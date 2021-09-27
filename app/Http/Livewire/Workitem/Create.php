@@ -43,6 +43,7 @@ class Create extends Component
             'workitem.name' => [
                 'string',
                 'required',
+                'unique:workitems,name,null,id,room_id,' . $this->workitem->room_id . ',owner_id,' . auth()->id(),
             ],
             'workitem.description' => [
                 'string',

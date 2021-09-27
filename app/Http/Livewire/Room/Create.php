@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Room;
 
 use App\Models\Room;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class Create extends Component
@@ -34,8 +35,7 @@ class Create extends Component
             'room.name' => [
                 'string',
                 'required',
-                //'unique:rooms,name, null, owner_id,' . auth()->id(),
-                //'name' => 'unique:games,name,NULL,id,user_id,'.$user->id
+                'unique:rooms,name,null,id,owner_id,' . auth()->id(),
             ],
             'room.description' => [
                 'string',

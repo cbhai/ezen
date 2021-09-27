@@ -62,6 +62,10 @@ class Estimate extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function estimateDetails(){
+        return $this->hasMany(EstimateDetail::class);
+    }
+
     public function getDateAttribute($value)
     {
         return $value ? Carbon::parse($value)->format(config('project.date_format')) : null;

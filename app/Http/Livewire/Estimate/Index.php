@@ -84,7 +84,10 @@ class Index extends Component
     {
         abort_if(Gate::denies('estimate_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        Estimate::whereIn('id', $this->selected)->delete();
+        //Estimate::whereIn('id', $this->selected)->delete();
+        $estimate = Estimate::whereIn('id', $this->selected)->get();
+        $estimate->estimateDetails->each->delete();
+        $estimate->delete();
 
         $this->resetSelected();
     }
@@ -93,6 +96,8 @@ class Index extends Component
     {
         abort_if(Gate::denies('estimate_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $estimate->estimateDetails->each->delete();
         $estimate->delete();
+
     }
 }

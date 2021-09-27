@@ -30,6 +30,7 @@ class Term extends Model
 
     protected $fillable = [
         'terms',
+        'owner_id',
     ];
 
     protected $dates = [

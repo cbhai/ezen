@@ -182,8 +182,6 @@ class HomeController
             $settings5['fields'] = [];
         }
 
-        dd($settings5);
-
         $settings6 = [
             'chart_title'           => 'Estimate Amount (monthly)',
             'chart_type'            => 'bar',

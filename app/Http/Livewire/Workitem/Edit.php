@@ -43,6 +43,7 @@ class Edit extends Component
             'workitem.name' => [
                 'string',
                 'required',
+                'unique:workitems,name,' . $this->workitem->id . ',id,room_id,' . $this->workitem->room_id . ',owner_id,' . auth()->id(),
             ],
             'workitem.description' => [
                 'string',

@@ -16,6 +16,8 @@ class Index extends Component
     use WithSorting;
     use WithConfirmation;
 
+    public BusinessProfile $businessProfile;
+
     public int $perPage;
 
     public array $orderable;
@@ -60,24 +62,24 @@ class Index extends Component
 
     public function mount()
     {
-        $this->sortBy            = 'business_name';
-        $this->sortDirection     = 'desc';
-        $this->perPage           = 100;
-        $this->paginationOptions = config('project.pagination.options');
-        $this->orderable         = (new BusinessProfile())->orderable;
+         $this->sortBy            = 'business_name';
+         $this->sortDirection     = 'desc';
+         $this->perPage           = 100;
+         $this->paginationOptions = config('project.pagination.options');
+         $this->orderable         = (new BusinessProfile())->orderable;
     }
 
     public function render()
     {
         $query = BusinessProfile::with(['owner'])->advancedFilter([
-            's'               => $this->search ?: null,
-            'order_column'    => $this->sortBy,
-            'order_direction' => $this->sortDirection,
-        ]);
+             's'               => $this->search ?: null,
+             'order_column'    => $this->sortBy,
+             'order_direction' => $this->sortDirection,
+         ]);
 
-        $businessProfiles = $query->paginate($this->perPage);
+         $businessProfiles = $query->paginate($this->perPage);
 
-        return view('livewire.business-profile.index', compact('query', 'businessProfiles', 'businessProfiles'));
+         return view('livewire.business-profile.index', compact('query', 'businessProfiles', 'businessProfiles'));
     }
 
     public function deleteSelected()

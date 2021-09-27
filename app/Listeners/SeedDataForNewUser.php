@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Models\MasterRoom;
 use App\Models\MasterWorkitem;
 use App\Models\Room;
+use App\Models\Term;
 use App\Models\Workitem;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -74,5 +75,15 @@ class SeedDataForNewUser
             }
             Workitem::insert($workitems);
         }
+
+        $t = "This estimate is not a contract or a bill. It is our best guess at the total price to complete the work stated above, based upon our initial inspection. <br>
+        If prices changes or additional material and labour are required, we will inform you prior to proceeding with the work.<br>
+        Water & Electricity will be provided by client <br>
+        For keeping debris, place inside society premises will be provided by client <br>";
+
+        Term::create([
+            'terms' => $t,
+            'owner_id' => $user_id,
+        ]);
     }
 }

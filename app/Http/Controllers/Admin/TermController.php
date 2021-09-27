@@ -14,7 +14,16 @@ class TermController extends Controller
     {
         abort_if(Gate::denies('term_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.term.index');
+        $term = Term::where('owner_id', auth()->id())->first();
+
+        if(empty($term)){
+            return view('admin.term.create');
+        }else{
+            $term->load('owner');
+            return view('admin.term.show', compact('term'));
+        }
+
+        //return view('admin.term.index');
     }
 
     public function create()

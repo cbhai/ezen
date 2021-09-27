@@ -34,7 +34,7 @@ class Edit extends Component
             'room.name' => [
                 'string',
                 'required',
-                //'unique:rooms,name,' . $this->room->id,
+                'unique:rooms,name,' . $this->room->id . ',id,owner_id,' . auth()->id(),
             ],
             'room.description' => [
                 'string',

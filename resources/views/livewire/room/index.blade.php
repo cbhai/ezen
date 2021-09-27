@@ -136,7 +136,7 @@
 @push('scripts')
     <script>
         Livewire.on('confirm', e => {
-    if (!confirm("{{ trans('global.areYouSure') }}")) {
+    if (!confirm("{{ trans('global.areYouSureRoom') }}")) {
         return
     }
 @this[e.callback](...e.argv)

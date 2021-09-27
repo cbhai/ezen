@@ -5,6 +5,7 @@ return [
     'add'                            => 'Add',
     'allRightsReserved'              => 'All rights reserved.',
     'areYouSure'                     => 'Are you sure?',
+    'areYouSureRoom'                 => 'Are you sure? This will also delete all workitems belonging to this room',
     'clickHereToVerify'              => 'Click here to verify',
     'create'                         => 'Create',
     'dashboard'                      => 'Dashboard',
