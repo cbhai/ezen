@@ -161,6 +161,8 @@
     </div>
 
     <div class="form-group">
+        <button class="mr-2 btn btn-success" type="button"
+        wire:click.prevent="print">Print</button>
         <button class="mr-2 btn btn-indigo" type="submit">
             {{ trans('global.save') }}
         </button>

@@ -49,6 +49,11 @@ class BusinessProfile extends Model
         'about',
     ];
 
+    public function fullName() {
+        return $this->first_name . ' ' .  $this->last_name;
+    }
+
+
     public function owner()
     {
         return $this->belongsTo(User::class);

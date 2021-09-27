@@ -65,6 +65,10 @@ class Customer extends Model
         return static::STATUS_SELECT[$this->status] ?? null;
     }
 
+    public function fullName() {
+        return $this->first_name . ' ' .  $this->last_name;
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class);

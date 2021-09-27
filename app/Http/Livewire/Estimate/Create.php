@@ -2,12 +2,21 @@
 
 namespace App\Http\Livewire\Estimate;
 
+use App\Models\Branding;
 use App\Models\BusinessProfile;
 use App\Models\Customer;
 use App\Models\Estimate;
 use App\Models\EstimateDetail;
 use App\Models\Room;
 use App\Models\Term;
+use Carbon\Carbon;
+use LaravelDaily\Invoices\Classes\EstimateDetailsItem;
+use LaravelDaily\Invoices\Classes\EstimateItem;
+use LaravelDaily\Invoices\Classes\Party;
+//use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Classes\RoomItem;
+use LaravelDaily\Invoices\EstimatePDF;
+
 use Livewire\Component;
 
 class Create extends Component
@@ -208,7 +217,6 @@ class Create extends Component
         ];
     }
 
-    /***
     public function print(){
 
         $logo_url = "";
@@ -222,7 +230,7 @@ class Create extends Component
 
         $pro = new Party([
             'business_name' => $this->businessProfile->company_name,
-            'name'          => $this->businessProfile->first_name . " " . $this->businessProfile->last_name,
+            'name'          => $this->businessProfile->fullName(),
             'phone'         => $this->businessProfile->phone,
             'email'         => $this->businessProfile->email,
             'address'       => isset($this->businessProfile->street_address) ? $this->businessProfile->street_address : "",
@@ -235,11 +243,12 @@ class Create extends Component
         ]);
 
         $customer = new Party([
-            'name'          => $this->clientName,
-            'phone'         => isset($this->clientPhone) ? $this->clientPhone : "",
-            'email'         => isset($this->clientEmail) ? $this->clientEmail : "",
-            'address'       => isset($this->clientAddress) ? $this->clientAddress : "",
-            //city & state pending not in database
+            'name'          => $this->customer->fullName() ,
+            'phone'         => isset($this->customer->phone) ? $this->customer->phone : "",
+            'email'         => isset($this->customer->email) ? $this->customer->email : "",
+            'address'       => isset($this->customer->address) ? $this->customer->address : "",
+            'city'          => isset($this->customer->city) ? $this->customer->city : "",
+            'state'         => isset($this->customer->state) ? $this->customer->state : "",
             'custom_fields' => [
                 //'order number' => '> 654321 <',
             ],
@@ -266,7 +275,7 @@ class Create extends Component
 
         $now = Carbon::now();
         $unique_code = $now->format('YmdHi');
-        $file_name = 'Estimate-' . $this->clientName . '-' . $unique_code . '.pdf';
+        $file_name = 'Estimate-' . $this->customer->fullName() . '-' . $unique_code . '.pdf';
 
         $pdfrooms = [];
         foreach($this->tableArray as $room){
@@ -295,8 +304,6 @@ class Create extends Component
             ];
             unset($pdfitems);
          }
-
-
 
         $invoice = EstimatePDF::make('Estimate')
             ->series('BIG')
@@ -330,7 +337,6 @@ class Create extends Component
             echo  $invoice->stream();
         }, $file_name);
     }
-    */
     // protected function initListsForFields(): void
     // {
     //     $this->listsForFields['customer'] = Customer::pluck('first_name', 'id')->toArray();
