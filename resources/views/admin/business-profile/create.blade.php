@@ -7,10 +7,12 @@
                 <h6 class="card-title">
                     {{ trans('global.create') }}
                     {{ trans('cruds.businessProfile.title_singular') }}
+                    before adding customers or Estimates.
                 </h6>
             </div>
         </div>
-
+        <div>
+        </div>
         <div class="card-body">
             @livewire('business-profile.create')
         </div>

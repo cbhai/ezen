@@ -29,8 +29,9 @@ class Create extends Component
     public BusinessProfile $businessProfile;
     public $allCustomers = [];
     public $allRooms = [];
-    public $terms;
+    //public $terms;
 
+    public $estimate_total;
     public Customer $customer;
 
     public $tableArray = [];
@@ -51,8 +52,17 @@ class Create extends Component
         $this->allCustomers = Customer::all();
         $this->allRooms = Room::all();
 
-        $this->terms =  (Term::where('owner_id', auth()->id())->first())->terms;
+        $t =  Term::where('owner_id', auth()->id())->first();
+        if(!empty($t)){
+            $this->estimate_terms = $t->terms;
 
+        }else{
+            $this->estimate_terms = "";
+        }
+        $this->estimate->terms = $this->estimate_terms;
+
+        //dd($this->estimate->terms);
+        //$this->terms
         //if coming back to create page after adding room details on EstimateDetails
         if(!empty($id)){
 
@@ -66,7 +76,7 @@ class Create extends Component
 
             foreach($this->tableArrayRoomID as $key => $item){
 
-                $total = EstimateDetail::where('estimate_id', "=" , $id)
+                $rtotal = EstimateDetail::where('estimate_id', "=" , $id)
                     ->where('room_id', "=" , $this->tableArrayRoomID[$key])
                     ->pluck('total')->sum();
 
@@ -75,15 +85,17 @@ class Create extends Component
                 $this->tableArray[] = [
                     'room_id' => $this->tableArrayRoomID[$key],
                     'roomName' => $room->name,
-                    'roomTotal' => $total,
+                    'roomTotal' => $rtotal,
                     ];
 
             }
             //dd($this->tableArray);
+            $this->estimate_total = 0;
             foreach($this->tableArray as $room){
-                $this->estimate->total = $this->estimate->total + $room['roomTotal'];
+                $this->estimate_total = $this->estimate_total + $room['roomTotal'];
             }
-            //$this->estimate->total = $this->estimate_total;
+            $this->estimate->total = $this->estimate_total;
+            //dd($this->estimate->total);
         }
     }
 
@@ -107,7 +119,7 @@ class Create extends Component
     }
     public function submit()
     {
-        //$this->validate();
+        $this->validate();
 
         //validation to be done
         // no rooms added yet -> this inderectly enforces creation of estimate object
@@ -115,8 +127,8 @@ class Create extends Component
 
         //only validation remains is terms & branding
 
-        //$this->estimate->total = $this->estimate_total;
-        //$this->estimate->terms = $this->estimateTerms;
+        $this->estimate->total = $this->estimate_total;
+        $this->estimate->terms = $this->estimate_terms;
         //dd($this->estimate);
         $this->estimate->save();
 
@@ -210,22 +222,32 @@ class Create extends Component
             'estimate.footer' => [
                 'boolean',
             ],
-            'estimate.total' => [
-                'numeric',
-                'required',
-            ],
+             'estimate.total' => [
+                 'numeric',
+                 'required',
+             ],
         ];
     }
 
     public function print(){
 
+        $this->validate();
+        if(count($this->tableArray) < 1  ){
+            return;
+        }
+
         $logo_url = "";
         $branding = Branding::where('owner_id', auth()->id())->first();
-        //dd($branding->logo);
 
-        foreach($branding->logo as $key => $entry){
-            $logo_url = $entry['url'];
+        //dd($branding->logo);
+        if(!empty($branding->logo)){
+            foreach($branding->logo as $key => $entry){
+                $logo_url = $entry['url'];
+            }
+        }else{
+            $logo_url = public_path('vendor/invoices/estimate-zen.png');
         }
+
         //dd($logo_url);
 
         $pro = new Party([
@@ -254,22 +276,30 @@ class Create extends Component
             ],
         ]);
 
-        $notes = [
-            'Note: This estimate is not a contract or a bill. It is our best guess at the total price to complete the work stated above, based upon our ',
-            'initial inspection. If prices changes or additional material and labour are required, we will inform you prior to proceeding with the work.',
-        ];
-        $notes = implode("<br>", $notes);
+        // $notes = [
+        //     'Note: This estimate is not a contract or a bill. It is our best guess at the total price to complete the work stated above, based upon our ',
+        //     'initial inspection. If prices changes or additional material and labour are required, we will inform you prior to proceeding with the work.',
+        // ];
+        //$notes = implode("<br>", $this->terms);
 
-        $this->estimate->terms = $notes;
+        //$this->estimate->terms = $notes;
+
+        //dd($this->estimate->terms);
+        $this->estimate->terms = $this->estimate_terms;
+        $this->estimate->total = $this->estimate_total;
 
         $estimateItem = (new EstimateItem())
                         ->EstimateID($this->estimate->id)
                         ->EstimateTitle($this->estimate->title)
                         ->EstimateTotal($this->estimate->total)
                         ->EstimateDate($this->estimate->date)
-                        ->EstimateTerms($this->estimate->terms);
-                        //->EstimateAddHeader($this->estimate->addHeader)
-                        //->EstimateAddFooter ($this->estimate->addFooter);
+                        ->EstimateTerms($this->estimate->terms)
+                        ->EstimateAddHeader(isset($this->estimate->header) ? $this->estimate->header : 0)
+                        ->EstimateAddFooter (isset($this->estimate->footer) ? $this->estimate->footer : 0)
+                        ->EstimateHeader($branding->header)
+                        ->EstimateFooter($branding->footer);
+
+        //dd($this->estimate->header . '-' . $this->estimate->footer);
 
         //dd($estimateItem);
 
@@ -323,7 +353,7 @@ class Create extends Component
             //->addItems($items)
             ->addRooms($pdfrooms)
             ->addEstimateItem($estimateItem)
-            ->notes($notes)
+            ->notes($this->estimate->terms)
             //->logo(public_path('vendor/invoices/sample-logo.png'))
             ->logo($logo_url)
             // You can additionally save generated invoice to configured disk

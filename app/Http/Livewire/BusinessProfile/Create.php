@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\BusinessProfile;
 
+use App\Models\Branding;
 use App\Models\BusinessProfile;
 use Livewire\Component;
 
@@ -24,6 +25,15 @@ class Create extends Component
         $this->validate();
 
         $this->businessProfile->save();
+
+        $brand = Branding::where('owner_id', auth()->id())->first();
+        if(empty($brand)){
+            Branding::create([
+                'title'  => 'Branding for - ' . $this->businessProfile->business_name,
+                'footer' => 'Contact us for any further question - Phone - ' . $this->businessProfile->phone . ' Email - ' . $this->businessProfile->email,
+                'header' => $this->businessProfile->business_name . ' - Phone - ' . $this->businessProfile->phone . ' Email - ' . $this->businessProfile->email,
+            ]);
+        }
 
         return redirect()->route('admin.business-profiles.index');
     }

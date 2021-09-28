@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BusinessProfile;
 use App\Models\Estimate;
 use Gate;
 use Illuminate\Http\Request;
@@ -22,6 +23,13 @@ class EstimateController extends Controller
         //dd($id);
         abort_if(Gate::denies('estimate_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        //For first time user only
+        if(empty($id)){
+            $businessProfile = BusinessProfile::where('owner_id', auth()->id())->first();
+            if(empty($businessProfile)){
+                return redirect()->route('admin.business-profiles.create');
+            }
+        }
         return view('admin.estimate.create', ['id' => $id]);
     }
 

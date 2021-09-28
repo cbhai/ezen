@@ -1,5 +1,4 @@
 <form wire:submit.prevent="submit" class="pt-3">
-
     <div class="form-group {{ $errors->has('businessProfile.business_name') ? 'invalid' : '' }}">
         <label class="form-label required" for="business_name">{{ trans('cruds.businessProfile.fields.business_name') }}</label>
         <input class="form-control" type="text" name="business_name" id="business_name" required wire:model.defer="businessProfile.business_name">
@@ -102,7 +101,7 @@
     </div>
 
     <div class="form-group">
-        <button class="btn btn-indigo mr-2" type="submit">
+        <button class="mr-2 btn btn-indigo" type="submit">
             {{ trans('global.save') }}
         </button>
         <a href="{{ route('admin.business-profiles.index') }}" class="btn btn-secondary">

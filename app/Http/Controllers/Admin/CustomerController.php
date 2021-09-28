@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BusinessProfile;
 use App\Models\Customer;
 use Gate;
 use Illuminate\Http\Request;
@@ -20,6 +21,14 @@ class CustomerController extends Controller
     public function create()
     {
         abort_if(Gate::denies('customer_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        //For first time user only
+        if(empty($id)){
+            $businessProfile = BusinessProfile::where('owner_id', auth()->id())->first();
+            if(empty($businessProfile)){
+                return redirect()->route('admin.business-profiles.create');
+            }
+        }
 
         return view('admin.customer.create');
     }

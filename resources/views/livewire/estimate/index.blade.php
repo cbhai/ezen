@@ -121,6 +121,11 @@
                                             {{ trans('global.delete') }}
                                         </button>
                                     @endcan
+                                    @can('estimate_delete')
+                                        <button class="mr-2 btn btn-sm btn-rose" type="button" wire:click="duplicate({{ $estimate->id }})" wire:loading.attr="disabled">
+                                            Duplicate
+                                        </button>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

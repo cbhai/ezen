@@ -121,7 +121,7 @@
 
     <div class="form-group {{ $errors->has('estimate.terms') ? 'invalid' : '' }}">
         <label class="form-label" for="terms">{{ trans('cruds.estimate.fields.terms') }}</label>
-        <textarea class="form-control" name="terms" id="terms" wire:model.defer="estimate.terms" rows="4"></textarea>
+        <textarea class="form-control" name="terms" id="terms" wire:model.defer="estimate_terms" rows="4"></textarea>
         <div class="validation-message">
             {{ $errors->first('estimate.terms') }}
         </div>
@@ -151,7 +151,7 @@
     </div>
     <div class="form-group {{ $errors->has('estimate.total') ? 'invalid' : '' }}">
         <label class="form-label required" for="total">{{ trans('cruds.estimate.fields.total') }}</label>
-        <input class="form-control" type="number" name="total" id="total" required wire:model.defer="estimate.total" step="0.01">
+        <input class="form-control" disabled type="number" name="total" id="total" required wire:model.defer="estimate_total" step="0.01">
         <div class="validation-message">
             {{ $errors->first('estimate.total') }}
         </div>
