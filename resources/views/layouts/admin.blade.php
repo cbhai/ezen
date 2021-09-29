@@ -14,21 +14,22 @@
         @stack('styles')
 </head>
 
-<body class="text-blueGray-800 antialiased">
+<body class="antialiased text-blueGray-800">
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
 
     <div id="app">
         <x-sidebar />
 
-        <div class="relative md:ml-64 bg-blueGray-50 min-h-screen">
+        <div class="relative min-h-screen md:ml-64 bg-blueGray-50">
             <x-nav />
 
-            <div class="relative bg-pink-600 md:pt-32 pb-32 pt-12">
-                <div class="px-4 md:px-10 mx-auto w-full">&nbsp;</div>
+            {{-- <div class="relative pt-12 pb-32 bg-pink-600 md:pt-32"> --}}
+            <div class="relative pt-12 pb-32 bg-blueGray-500 md:pt-32">
+                <div class="w-full px-4 mx-auto md:px-10">&nbsp;</div>
             </div>
 
-            <div class="relative px-4 md:px-10 mx-auto w-full min-h-full -m-48">
+            <div class="relative w-full min-h-full px-4 mx-auto -m-48 md:px-10">
                 @if(session('status'))
                     <x-alert message="{{ session('status') }}" variant="indigo" role="alert" />
                 @endif

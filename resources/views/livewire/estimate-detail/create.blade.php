@@ -16,7 +16,7 @@
     </div>
 
     <div class="overflow-hidden">
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto ">
             <table @if (!$showTable) style="display:none" @endif
                 class="table w-full border-solid table-index">
                 <thead>
@@ -239,7 +239,7 @@
         <div>
             <button @if (!$showAddItem) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="addWorkitem">Add Item</button>
             <button @if (!$showAddCustomItem) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="addCustomWorkitem">Add Custom Item</button>
-            <button @if (!$showAddAllItem) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="addAllWorkitems">Add All Items</button>
+            <button @if (!$showAddAllItem) style="display:none" @endif class="mr-2 btn btn-bg btn-info" wire:click.prevent="addAllWorkitems">Add All Items</button>
         </div>
     </div>
     <div class="form-group">
@@ -248,7 +248,8 @@
     <div class="form-group">
         <div>
             <button @if (!$showSaveRoom) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="saveEstimateDetails">Save Room</button>
-            <button @if (!$showEditRoom) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="saveRoom">Edit Room</button>
+            {{-- <button @if (!$showEditRoom) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="saveRoom">Edit Room</button> --}}
+            <button class="mr-2 btn btn-sm btn-rose" wire:click.prevent="cancel">{{ trans('global.cancel') }}</button>
         </div>
     </div>
 

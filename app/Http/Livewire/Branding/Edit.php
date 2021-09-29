@@ -71,14 +71,14 @@ class Edit extends Component
                 'string',
                 'required',
             ],
-            'mediaCollections.branding_logo' => [
-                'array',
-                'required',
-            ],
-            'mediaCollections.branding_logo.*.id' => [
-                'integer',
-                'exists:media,id',
-            ],
+            // 'mediaCollections.branding_logo' => [
+            //     'array',
+            //     'required',
+            // ],
+            // 'mediaCollections.branding_logo.*.id' => [
+            //     'integer',
+            //     'exists:media,id',
+            // ],
         ];
     }
 

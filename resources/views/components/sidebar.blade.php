@@ -47,7 +47,7 @@
 
                 @can('user_management_access')
                     <li class="items-center">
-                        <a class="has-sub {{ request()->is("admin/permissions*")||request()->is("admin/roles*")||request()->is("admin/users*")||request()->is("admin/audit-logs*")||request()->is("admin/user-alerts*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                        <a class="has-sub {{ request()->is("panel/permissions*")||request()->is("panel/roles*")||request()->is("panel/users*")||request()->is("panel/audit-logs*")||request()->is("panel/user-alerts*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
                             <i class="fa-fw fas c-sidebar-nav-icon fa-users">
                             </i>
                             {{ trans('cruds.userManagement.title') }}
@@ -55,7 +55,7 @@
                         <ul class="hidden ml-4 subnav">
                             @can('permission_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/permissions*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.permissions.index") }}">
+                                    <a class="{{ request()->is("panel/permissions*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.permissions.index") }}">
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-unlock-alt">
                                         </i>
                                         {{ trans('cruds.permission.title') }}
@@ -64,7 +64,7 @@
                             @endcan
                             @can('role_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/roles*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.roles.index") }}">
+                                    <a class="{{ request()->is("panel/roles*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.roles.index") }}">
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-briefcase">
                                         </i>
                                         {{ trans('cruds.role.title') }}
@@ -73,7 +73,7 @@
                             @endcan
                             @can('user_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/users*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.users.index") }}">
+                                    <a class="{{ request()->is("panel/users*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.users.index") }}">
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-user">
                                         </i>
                                         {{ trans('cruds.user.title') }}
@@ -82,7 +82,7 @@
                             @endcan
                             @can('audit_log_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/audit-logs*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.audit-logs.index") }}">
+                                    <a class="{{ request()->is("panel/audit-logs*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.audit-logs.index") }}">
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-file-alt">
                                         </i>
                                         {{ trans('cruds.auditLog.title') }}
@@ -91,7 +91,7 @@
                             @endcan
                             @can('user_alert_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/user-alerts*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.user-alerts.index") }}">
+                                    <a class="{{ request()->is("panel/user-alerts*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.user-alerts.index") }}">
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-bell">
                                         </i>
                                         {{ trans('cruds.userAlert.title') }}
@@ -103,7 +103,7 @@
                 @endcan
                 @can('master_room_access')
                     <li class="items-center">
-                        <a class="{{ request()->is("admin/master-rooms*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.master-rooms.index") }}">
+                        <a class="{{ request()->is("panel/master-rooms*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.master-rooms.index") }}">
                             <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
                             </i>
                             {{ trans('cruds.masterRoom.title') }}
@@ -112,7 +112,7 @@
                 @endcan
                 @can('master_workitem_access')
                     <li class="items-center">
-                        <a class="{{ request()->is("admin/master-workitems*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.master-workitems.index") }}">
+                        <a class="{{ request()->is("panel/master-workitems*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.master-workitems.index") }}">
                             <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
                             </i>
                             {{ trans('cruds.masterWorkitem.title') }}
@@ -121,7 +121,7 @@
                 @endcan
                 @can('my_business_access')
                     <li class="items-center">
-                        <a class="has-sub {{ request()->is("admin/business-profiles*")||request()->is("admin/brandings*")||request()->is("admin/terms*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                        <a class="has-sub {{ request()->is("panel/business-profiles*")||request()->is("panel/brandings*")||request()->is("panel/terms*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
                             <i class="fa-fw fas c-sidebar-nav-icon fa-desktop">
                             </i>
                             {{ trans('cruds.myBusiness.title') }}
@@ -129,7 +129,7 @@
                         <ul class="hidden ml-4 subnav">
                             @can('business_profile_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/business-profiles*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.business-profiles.index") }}">
+                                    <a class="{{ request()->is("panel/business-profiles*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.business-profiles.index") }}">
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-user">
                                         </i>
                                         {{ trans('cruds.businessProfile.title') }}
@@ -138,7 +138,7 @@
                             @endcan
                             @can('branding_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/brandings*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.brandings.index") }}">
+                                    <a class="{{ request()->is("panel/brandings*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.brandings.index") }}">
                                         <i class="fa-fw c-sidebar-nav-icon fas fa-bullhorn">
                                         </i>
                                         {{ trans('cruds.branding.title') }}
@@ -147,7 +147,7 @@
                             @endcan
                             @can('term_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/terms*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.terms.index") }}">
+                                    <a class="{{ request()->is("panel/terms*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.terms.index") }}">
                                         <i class="fa-fw c-sidebar-nav-icon far fa-calendar-check">
                                         </i>
                                         {{ trans('cruds.term.title') }}
@@ -159,7 +159,7 @@
                 @endcan
                 @can('customer_access')
                     <li class="items-center">
-                        <a class="{{ request()->is("admin/customers*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.customers.index") }}">
+                        <a class="{{ request()->is("panel/customers*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.customers.index") }}">
                             <i class="fa-fw c-sidebar-nav-icon fas fa-users">
                             </i>
                             {{ trans('cruds.customer.title') }}
@@ -168,7 +168,7 @@
                 @endcan
                 @can('estimate_access')
                     <li class="items-center">
-                        <a class="{{ request()->is("admin/estimates*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.estimates.index") }}">
+                        <a class="{{ request()->is("panel/estimates*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.estimates.index") }}">
                             <i class="fa-fw c-sidebar-nav-icon fas fa-rupee-sign">
                             </i>
                             {{ trans('cruds.estimate.title') }}
@@ -177,7 +177,7 @@
                 @endcan
                 @can('room_access')
                     <li class="items-center">
-                        <a class="{{ request()->is("admin/rooms*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.rooms.index") }}">
+                        <a class="{{ request()->is("panel/rooms*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.rooms.index") }}">
                             <i class="fa-fw c-sidebar-nav-icon fas fa-home">
                             </i>
                             {{ trans('cruds.room.title') }}
@@ -186,7 +186,7 @@
                 @endcan
                 @can('workitem_access')
                     <li class="items-center">
-                        <a class="{{ request()->is("admin/workitems*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.workitems.index") }}">
+                        <a class="{{ request()->is("panel/workitems*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.workitems.index") }}">
                             <i class="fa-fw c-sidebar-nav-icon fas fa-list-ul">
                             </i>
                             {{ trans('cruds.workitem.title') }}
@@ -196,7 +196,7 @@
                 @can('user_access')
                 @can('estimate_detail_access')
                     <li class="items-center">
-                        <a class="{{ request()->is("admin/estimate-details*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.estimate-details.index") }}">
+                        <a class="{{ request()->is("panel/estimate-details*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.estimate-details.index") }}">
                             <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
                             </i>
                             {{ trans('cruds.estimateDetail.title') }}

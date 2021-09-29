@@ -305,6 +305,10 @@ class Create extends Component
         return $this->redirect(route('admin.estimates.create', ['id' => $this->estimate->id]));
         //return redirect()->route('admin.estimate-details.index');
     }
+    public function cancel(){
+        return $this->redirect(route('admin.estimates.create', ['id' => $this->estimate->id]));
+    }
+
 
     protected function rules(): array
     {

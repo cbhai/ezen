@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Room;
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
 use App\Models\Room;
+use App\Models\Workitem;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -84,9 +85,13 @@ class Index extends Component
     {
         abort_if(Gate::denies('room_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $room = Room::whereIn('id', $this->selected)->get();
-        $room->workitems->each->delete();
-        $room->delete();
+        $rooms = Room::whereIn('id', $this->selected)->get();
+
+        foreach($rooms as $room){
+            $room->workitems->each->delete();
+        }
+        $rooms->each->delete();
+
         //Room::whereIn('id', $this->selected)->delete();
 
         $this->resetSelected();
@@ -98,5 +103,24 @@ class Index extends Component
 
         $room->workitems->each->delete();
         $room->delete();
+    }
+    public function duplicate(Room $room)
+    {
+        $newRoom = $room->replicate();
+
+        $newRoom->name = 'Copy of - ' . $room->name;
+
+        $newRoom->save();
+
+        $newParentId = $newRoom->id;
+
+        $childWorkitems = Workitem::where('room_id', $room->id)->get();
+
+        $childWorkitems->each(function ($child) use ($newParentId){
+            $replica = $child->replicate()->fill([
+                'room_id'   =>  $newParentId,
+            ]);
+            $replica->save();
+        });
     }
 }

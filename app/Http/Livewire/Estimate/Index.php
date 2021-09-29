@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Estimate;
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
 use App\Models\Estimate;
-use Carbon\Carbon;
+use App\Models\EstimateDetail;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -86,9 +86,12 @@ class Index extends Component
         abort_if(Gate::denies('estimate_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         //Estimate::whereIn('id', $this->selected)->delete();
-        $estimate = Estimate::whereIn('id', $this->selected)->get();
-        $estimate->estimateDetails->each->delete();
-        $estimate->delete();
+        $estimates = Estimate::whereIn('id', $this->selected)->get();
+
+        foreach($estimates as $estimate){
+            $estimate->estimateDetails->each->delete();
+        }
+        $estimates->each->delete();
 
         $this->resetSelected();
     }
@@ -103,35 +106,22 @@ class Index extends Component
     }
     public function duplicate(Estimate $estimate)
     {
-        //dd($estimate->title);
-        //Replicate code here
         $newEstimate = $estimate->replicate();
 
         $newEstimate->title = 'Copy of - ' . $estimate->title;
-        $newEstimate->created_at = Carbon::now();
-        $newEstimate->updated_at = Carbon::now();
 
         $newEstimate->save();
-        //dd($newEstimate);
 
+        $newParentId = $newEstimate->id;
 
-        // Fetch all EstimateDetails
-        //loop through it to change - estimate_id, created_at, updated_at
+        $childEstimateDetails = EstimateDetail::where('estimate_id', $estimate->id)->get();
 
-        /****
-
-        $parentId = 1; // just an example
-
-        $children->each(function ($child) use ($parentId) {
+        $childEstimateDetails->each(function ($child) use ($newParentId){
             $replica = $child->replicate()->fill([
-                'parent_id' => $parentId
+                'estimate_id'   =>  $newParentId,
             ]);
-
             $replica->save();
         });
 
-
-
-        */
     }
 }

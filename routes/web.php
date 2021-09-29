@@ -24,7 +24,7 @@ Route::redirect('/', '/login');
 
 Auth::routes(['register' => true]);
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'panel', 'as' => 'admin.', 'middleware' => ['auth']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Permissions

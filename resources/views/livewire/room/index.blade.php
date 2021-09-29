@@ -14,14 +14,13 @@
                 </button>
             @endcan
 
-            @if(file_exists(app_path('Http/Livewire/ExcelExport.php')))
-                <livewire:excel-export model="Room" format="csv" />
-                <livewire:excel-export model="Room" format="xlsx" />
-                <livewire:excel-export model="Room" format="pdf" />
-            @endif
-
-
-
+            @can('user_access')
+                @if(file_exists(app_path('Http/Livewire/ExcelExport.php')))
+                    <livewire:excel-export model="Room" format="csv" />
+                    <livewire:excel-export model="Room" format="xlsx" />
+                    <livewire:excel-export model="Room" format="pdf" />
+                @endif
+            @endcan
 
         </div>
         <div class="w-full sm:w-1/2 sm:text-right">
@@ -103,6 +102,11 @@
                                     @can('room_delete')
                                         <button class="mr-2 btn btn-sm btn-rose" type="button" wire:click="confirm('delete', {{ $room->id }})" wire:loading.attr="disabled">
                                             {{ trans('global.delete') }}
+                                        </button>
+                                    @endcan
+                                    @can('room_delete')
+                                        <button class="mr-2 btn btn-sm btn-rose" type="button" wire:click="duplicate({{ $room->id }})" wire:loading.attr="disabled">
+                                            Duplicate
                                         </button>
                                     @endcan
                                 </div>

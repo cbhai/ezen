@@ -14,12 +14,13 @@
                 </button>
             @endcan
 
+            @can('user_access')
             @if(file_exists(app_path('Http/Livewire/ExcelExport.php')))
                 <livewire:excel-export model="Estimate" format="csv" />
                 <livewire:excel-export model="Estimate" format="xlsx" />
                 <livewire:excel-export model="Estimate" format="pdf" />
             @endif
-
+            @endcan
 
 
 

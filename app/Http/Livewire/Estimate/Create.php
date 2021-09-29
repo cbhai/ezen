@@ -239,12 +239,13 @@ class Create extends Component
         $logo_url = "";
         $branding = Branding::where('owner_id', auth()->id())->first();
 
+        foreach($branding->logo as $key => $entry){
+            $logo_url = $entry['url'];
+        }
+        //dd($logo_url);
         //dd($branding->logo);
-        if(!empty($branding->logo)){
-            foreach($branding->logo as $key => $entry){
-                $logo_url = $entry['url'];
-            }
-        }else{
+        if(empty($logo_url)){
+            //$logo_url = asset('vendor/invoices/estimate-zen.png');
             $logo_url = public_path('vendor/invoices/estimate-zen.png');
         }
 
