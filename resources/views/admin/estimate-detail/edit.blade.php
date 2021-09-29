@@ -8,13 +8,13 @@
                     {{ trans('global.edit') }}
                     {{ trans('cruds.estimateDetail.title_singular') }}:
                     {{ trans('cruds.estimateDetail.fields.id') }}
-                    {{ $estimateDetail->id }}
+                    {{-- {{ $estimateDetail->id }} --}}
                 </h6>
             </div>
         </div>
 
         <div class="card-body">
-            @livewire('estimate-detail.edit', [$estimateDetail])
+            @livewire('estimate-detail.edit',  ['estimate_id' => $estimate_id, 'room_id' => $room_id])
         </div>
     </div>
 </div>

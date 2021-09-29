@@ -78,19 +78,21 @@
                             </td>
                             <td>
                                 <div class="flex justify-end">
-                                    @can('estimate_show')
+                                    {{-- @can('estimate_show')
                                         <a class="mr-2 btn btn-sm btn-info"
-                                            href="{{ route('admin.estimates.show', $estimate)}}">
+                                            href="{{ route('admin.estimate-details.show',$estimate, $room['room_id'])}}">
                                             {{ trans('global.view') }}
                                         </a>
-                                    @endcan
+                                    @endcan --}}
                                     @can('estimate_edit')
-                                        <a class="mr-2 btn btn-sm btn-success" href="{{ route('admin.estimates.edit', $estimate) }}">
+                                        <a class="mr-2 btn btn-sm btn-success"
+                                            href="{{ route('admin.estimate-details.edit',['estimate_id' => $estimate->id, 'room_id' => $room['room_id']])}}">
                                             {{ trans('global.edit') }}
                                         </a>
                                     @endcan
                                     @can('estimate_delete')
-                                        <button class="mr-2 btn btn-sm btn-rose" type="button" wire:click="confirm('delete', {{ $estimate->id }})" wire:loading.attr="disabled">
+                                        <button class="mr-2 btn btn-sm btn-rose"
+                                        type="button" wire:click="deleteRoom({{$key}})" wire:loading.attr="disabled">
                                             {{ trans('global.delete') }}
                                         </button>
                                     @endcan

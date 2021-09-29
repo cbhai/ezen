@@ -24,7 +24,8 @@ Route::redirect('/', '/login');
 
 Auth::routes(['register' => true]);
 
-Route::group(['prefix' => 'panel', 'as' => 'admin.', 'middleware' => ['auth']], function () {
+// Route::group(['prefix' => 'panel', 'as' => 'admin.', 'middleware' => ['auth']], function () {
+    Route::group(['as' => 'admin.', 'middleware' => ['auth']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Permissions
@@ -81,7 +82,12 @@ Route::group(['prefix' => 'panel', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::get('estimate-details/create/{estimate_id?}', [
                     'uses' => 'App\Http\Controllers\Admin\EstimateDetailController@create',
                     ])->name('estimate-details.create');
-   Route::resource('estimate-details', EstimateDetailController::class, ['except' => ['create','store', 'update', 'destroy']]);
+
+    Route::get('estimate-details/edit/{estimate_id}/{room_id}','App\Http\Controllers\Admin\EstimateDetailController@edit')
+                ->name('estimate-details.edit');
+
+
+    Route::resource('estimate-details', EstimateDetailController::class, ['except' => ['create','store', 'edit' ,'update', 'destroy']]);
     //Route::resource('estimate-details', EstimateDetailController::class, ['except' => ['store', 'update', 'destroy']]);
 });
 

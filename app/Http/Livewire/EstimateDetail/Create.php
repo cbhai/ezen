@@ -265,7 +265,7 @@ class Create extends Component
 
         //Nitin-To-Do
         //Place to remove item from $this->allWorkitems which was already used
-
+        //deciding not to do this, if there is need in future will do it
         //$item = $this->allWorkitems->find($optionSelected);
 
         /***
@@ -275,6 +275,8 @@ class Create extends Component
         //dd($this->addedRooms);
 
         $this->allRooms = Room::all()->whereNotIn('id', $this->addedRooms);
+
+        if item is deleted/removed we have to add back
         */
     }
 

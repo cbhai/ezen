@@ -165,6 +165,7 @@ class HomeController
             'column_class'          => 'w-full xl:w-6/12',
             'entries_number'        => '5',
             'fields'                => [
+                'date'  => '',
                 'customer' => 'first_name',
                 'total'    => '',
             ],

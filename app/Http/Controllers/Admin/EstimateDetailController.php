@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Estimate;
 use App\Models\EstimateDetail;
 use Gate;
 use Illuminate\Http\Request;
@@ -25,19 +26,24 @@ class EstimateDetailController extends Controller
         return view('admin.estimate-detail.create', ['estimate_id' => $estimate_id]);
     }
 
-    public function edit(EstimateDetail $estimateDetail)
+    public function edit(int $estimate_id, int $room_id)
     {
         abort_if(Gate::denies('estimate_detail_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.estimate-detail.edit', compact('estimateDetail'));
+        //dd($estimate_id . " - " . $room_id);
+
+        return view('admin.estimate-detail.edit', ['estimate_id' => $estimate_id, 'room_id' => $room_id]);
     }
 
-    public function show(EstimateDetail $estimateDetail)
+    public function show(Estimate $estimate, int $room_id)
     {
         abort_if(Gate::denies('estimate_detail_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $estimateDetail->load('estimate', 'room', 'owner');
+        //Kept pending, confused in route binding implementation
+        $estimateDetails = EstimateDetail::where('estimate_id', $estimate->id)
+                            ->where('room_id', $room_id) // ->load('estimate', 'room', 'owner');
+                            ->with('room')->get();
 
-        return view('admin.estimate-detail.show', compact('estimateDetail'));
+        return view('admin.estimate-detail.show', compact('estimateDetails', 'estimate', 'room_id'));
     }
 }

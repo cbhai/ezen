@@ -13,8 +13,11 @@ class Edit extends Component
 
     public EstimateDetail $estimateDetail;
 
-    public function mount(EstimateDetail $estimateDetail)
+    public function mount(EstimateDetail $estimateDetail, $estimate_id, $room_id)
     {
+
+        dd(" reached" . $estimate_id . " - ". $room_id);
+
         $this->estimateDetail = $estimateDetail;
         $this->initListsForFields();
     }

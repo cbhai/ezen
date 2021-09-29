@@ -15,7 +15,8 @@
 
         <div class="card-body">
             <div class="pt-3">
-                <table class="table table-view">
+                Received ID - {{$estimateDetails->estimate_id}}
+                {{-- <table class="table table-view">
                     <tbody class="bg-white">
                         <tr>
                             <th>
@@ -104,11 +105,11 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                </table> --}}
             </div>
             <div class="form-group">
                 @can('estimate_detail_edit')
-                    <a href="{{ route('admin.estimate-details.edit', $estimateDetail) }}" class="btn btn-indigo mr-2">
+                    <a href="{{ route('admin.estimate-details.edit', $estimateDetail) }}" class="mr-2 btn btn-indigo">
                         {{ trans('global.edit') }}
                     </a>
                 @endcan

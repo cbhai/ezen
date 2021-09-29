@@ -368,6 +368,25 @@ class Create extends Component
             echo  $invoice->stream();
         }, $file_name);
     }
+
+    public function deleteRoom($key){
+        //dd($key);
+        $rid = $this->tableArray[$key]['room_id'];
+        //dd($rid);
+
+        $estimateDetaisToBeDeleted = EstimateDetail::where(
+            ['estimate_id' => $this->estimate->id,
+            'room_id'   => $rid,
+            ])->get();
+
+        $estimateDetaisToBeDeleted->each->delete();
+
+        $this->estimate_total = $this->estimate_total - $this->tableArray[$key]['roomTotal'];
+        $this->estimate->total = $this->estimate_total;
+
+        unset($this->tableArray[$key]);
+        $this->tableArray = array_values($this->tableArray);
+    }
     // protected function initListsForFields(): void
     // {
     //     $this->listsForFields['customer'] = Customer::pluck('first_name', 'id')->toArray();
