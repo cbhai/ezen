@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="card-body">
+        {{-- <div class="card-body">
             <div class="pt-3">
                 <table class="table table-view">
                     <tbody class="bg-white">
@@ -110,7 +110,9 @@
                     {{ trans('global.back') }}
                 </a>
             </div>
-        </div>
+        </div> --}}
+        @livewire('estimate.show', ['estimate' => $estimate])
+
     </div>
 </div>
 @endsection

@@ -39,22 +39,74 @@ class Create extends Component
 
     public $roomTotal;
 
-    public function mount($estimate_id = null)
+    public $isCreateMode;
+    //public $estDetailsEditmode;
+
+    public function mount($estimate_id, $room_id = null)
     {
+        //dd('estimate_id is ' . $estimate_id . ' and room_id is ' . $room_id);
+        $this->isCreateMode = true;
+        //estimate_id will always come
         if(!empty($estimate_id)){
-            //ddd($estimateIDNitin);
-            //$this->estimateID = $estimate_id;
             //as of now dont see any need for fetching whoel estimate object but lets see
             $this->estimate = Estimate::where('id', '=' , $this->estimate_id)->first();
             $this->customer = Customer::where('id', '=' , $this->estimate->customer_id)->first();
-            //$this->customerID = $estimate->customer_id;
-            //$this->estimateTitle = $estimate->title;
 
-            $this->addedRooms = EstimateDetail::groupBy('room_id')
+            if(!empty($room_id)){
+
+                $this->reset('arrEstimateDetails', 'allWorkitems');
+                $this->resetErrorBag();
+
+                $this->isCreateMode = false;
+                $this->roomSelected = $room_id;
+
+                //Not very efficeint, dont know how to extract from allRooms
+                $this->roomSelectedName = Room::where('id', $this->roomSelected)->first()->name;
+
+                //add Workitems
+
+                $this->showAddCustomItem = true;
+                $this->showTable = true;
+                $this->showSaveRoom = true;
+                $this->showEditRoom = true;
+                $this->showAddAllItem = true;
+                $this->showAddItem = true;
+
+
+                $estDetailsEditmode = EstimateDetail::where([
+                    'estimate_id' => $this->estimate->id,
+                    'room_id'   => $this->roomSelected,
+                ])->get();
+
+                $rTotal = 0;
+                foreach($estDetailsEditmode as $item){
+                    //ddd($item);
+                    $this->arrEstimateDetails[] = [
+                        'id' =>$item->id,
+                        'name' => $item->name,
+                        'description' => $item->description,
+                        'unit' => $item->unit,
+                        'rate' => $item->rate,
+                        'quantity' => $item->quantity,
+                        'total' => $item->total,
+                        'is_saved' => true,
+                        'row_type' => 'addAllWorkitems',
+                    ];
+                    $rTotal = $rTotal + $item->total;
+                }
+                //dd($this->arrEstimateDetails);
+                $this->roomTotal = $rTotal;
+
+                $this->allWorkitems = Workitem::where(['room_id' => $this->roomSelected])->get();
+
+
+            }else{
+                $this->addedRooms = EstimateDetail::groupBy('room_id')
                                     ->where('estimate_id' , '=', $this->estimate->id)
                                     ->pluck('room_id');
-            //dd($this->addedRooms);
-            $this->allRooms = Room::all()->whereNotIn('id', $this->addedRooms);
+                $this->allRooms = Room::all()->whereNotIn('id', $this->addedRooms);
+            }
+
         }
         else
         {
@@ -69,28 +121,18 @@ class Create extends Component
 
     public function UpdatedroomSelected(){
 
-        //$this->reset('arrEstimateDetails', 'customer_name', 'customer_email');
+        //dd('UpdatedroomSelected');
         $this->reset('arrEstimateDetails', 'allWorkitems');
         $this->resetErrorBag();
 
-        // foreach($this->arrEstimateDetails as $key=>$item){
-        //     unset($this->arrEstimateDetails[$key]);
-
-        // }
-
         if(!empty($this->roomSelected)){
+            //moved to mount
             $this->allWorkitems = Workitem::where(['room_id' => $this->roomSelected])->get();
-
-            //ddd($this->allWorkitems);
 
             //Not very efficeint, dont know how to extract from allRooms
             $this->roomSelectedName = Room::where('id', $this->roomSelected)->first()->name;
 
-            //pulling all workitems once to be used for
 
-            //show table header
-            //show buttons
-            //ddd($this->roomSelected);
             $this->showAddItem = true;
             $this->showAddCustomItem = true;
             $this->showAddAllItem = true;
@@ -194,6 +236,63 @@ class Create extends Component
         }
         $this->arrEstimateDetails[$index]['is_saved'] = false;
     }
+
+    /*
+    public function addWorkitemsEditMode(){
+
+        $this->showAddCustomItem = true;
+        $this->showTable = true;
+        $this->showSaveRoom = true;
+        $this->showEditRoom = true;
+        $this->showAddAllItem = false;
+        $this->showAddItem = false;
+
+
+        $this->estDetailsEditmode = EstimateDetail::where([
+            'esimate_id' => $this->estimate->id,
+            'room_id'   => $this->room_id,
+        ])->get();
+
+        $rTotal = 0;
+        foreach($this->estDetailsEditmode as $item){
+            //ddd($item);
+            $this->arrEstimateDetails[] = [
+                'name' => $item->name,
+                'description' => $item->description,
+                'unit' => $item->unit,
+                'rate' => $item->rate,
+                'quantity' => $item->quantity,
+                'total' => $item->total,
+                'is_saved' => true,
+                'row_type' => $item->row_type,
+            ];
+            $rTotal = $rTotal + $item->total;
+        }
+        $this->roomTotal = $rTotal;
+
+        $this->allWorkitems = Workitem::where(['room_id' => $this->roomSelected])->get();
+
+
+        $listRowType = $this->estDetailsEditmode
+                        ->whereIn('row_type', ['addAllWorkitems', 'addWorkitem']);
+
+        $this->showAddCustomItem = true;
+        $this->showTable = true;
+        $this->showSaveRoom = true;
+        $this->showEditRoom = true;
+
+        if(!empty($listRowType)){
+            $this->showAddAllItem = false;
+            $this->showAddItem = false;
+        }else{
+            $this->showAddAllItem = true;
+            $this->showAddItem = true;
+        }
+
+        //$this->workitemSaved = false;
+    }
+*/
+
     public function saveWorkitem($index){
         $this->resetErrorBag();
 
@@ -233,6 +332,13 @@ class Create extends Component
     }
     public function removeWorkitem($index){
         $this->roomTotal = $this->roomTotal -  $this->arrEstimateDetails[$index]['total'];
+
+        //is in Edit mode you have to also delete estimatedetails from database
+        if(!$this->isCreateMode){
+            $eDetailDeleted = EstimateDetail::find($this->arrEstimateDetails[$index]['id']);
+            $eDetailDeleted->delete();
+        }
+
         unset($this->arrEstimateDetails[$index]);
         $this->arrEstimateDetails = array_values($this->arrEstimateDetails);
 
@@ -241,7 +347,6 @@ class Create extends Component
             $this->showAddCustomItem = true;
             $this->showAddItem = true;
         }
-
     }
     public function UpdatedworkitemNameSelected(){
         //dropdown is bringing option selected & index in a string separated by -
@@ -284,22 +389,60 @@ class Create extends Component
         //$this->validate();
 
         //$this->estimateDetail->save();
+        if($this->isCreateMode){
 
-        $workItemsArray = [];
-        foreach ($this->arrEstimateDetails as $key => $workitem){
+            $workItemsArray = [];
+            foreach ($this->arrEstimateDetails as $key => $workitem){
 
-            $workItemsArray[$key]['name'] = $this->arrEstimateDetails[$key]['name'];
-            $workItemsArray[$key]['description'] = $this->arrEstimateDetails[$key]['description'];
-            $workItemsArray[$key]['rate'] = $this->arrEstimateDetails[$key]['rate'];
-            $workItemsArray[$key]['unit'] = $this->arrEstimateDetails[$key]['unit'];
-            $workItemsArray[$key]['quantity'] = $this->arrEstimateDetails[$key]['quantity'];
-            $workItemsArray[$key]['total'] = $this->arrEstimateDetails[$key]['total'];
-            $workItemsArray[$key]['estimate_id'] = $this->estimate->id;
-            $workItemsArray[$key]['room_id'] = $this->roomSelected;
-            $workItemsArray[$key]['owner_id'] = auth()->id();
+                $workItemsArray[$key]['name'] = $this->arrEstimateDetails[$key]['name'];
+                $workItemsArray[$key]['description'] = $this->arrEstimateDetails[$key]['description'];
+                $workItemsArray[$key]['rate'] = $this->arrEstimateDetails[$key]['rate'];
+                $workItemsArray[$key]['unit'] = $this->arrEstimateDetails[$key]['unit'];
+                $workItemsArray[$key]['quantity'] = $this->arrEstimateDetails[$key]['quantity'];
+                $workItemsArray[$key]['total'] = $this->arrEstimateDetails[$key]['total'];
+                $workItemsArray[$key]['estimate_id'] = $this->estimate->id;
+                $workItemsArray[$key]['room_id'] = $this->roomSelected;
+                $workItemsArray[$key]['owner_id'] = auth()->id();
+            }
+
+            EstimateDetail::insert($workItemsArray);
+        }else{
+
+            // In update mode existing will get updated & new rows will get insert
+            foreach ($this->arrEstimateDetails as $key => $workitem){
+                if(!empty($this->arrEstimateDetails[$key]['id'])){
+                    //update // save
+                    $eDetail = EstimateDetail::find($this->arrEstimateDetails[$key]['id']);
+
+                    $eDetail->name = $this->arrEstimateDetails[$key]['name'];
+
+                    $eDetail->description = $this->arrEstimateDetails[$key]['description'];
+                    $eDetail->rate = $this->arrEstimateDetails[$key]['rate'];
+                    $eDetail->unit = $this->arrEstimateDetails[$key]['unit'];
+                    $eDetail->quantity = $this->arrEstimateDetails[$key]['quantity'];
+                    $eDetail->total = $this->arrEstimateDetails[$key]['total'];
+                    $eDetail->estimate_id = $this->estimate->id;
+                    $eDetail->room_id = $this->roomSelected;
+                    $eDetail->owner_id = auth()->id();
+
+                    $eDetail->save();
+
+                }else{
+                    EstimateDetail::create([
+                        'name' => $this->arrEstimateDetails[$key]['name'],
+                        'description' => $this->arrEstimateDetails[$key]['description'],
+                        'rate' => $this->arrEstimateDetails[$key]['rate'],
+                        'unit' => $this->arrEstimateDetails[$key]['unit'],
+                        'quantity' => $this->arrEstimateDetails[$key]['quantity'],
+                        'total' => $this->arrEstimateDetails[$key]['total'],
+                        'estimate_id' => $this->estimate->id,
+                        'room_id' => $this->roomSelected,
+                        'owner_id' => auth()->id(),
+                    ]);
+                }
+            }
         }
 
-        EstimateDetail::insert($workItemsArray);
 
         $this->reset('arrEstimateDetails');
         $this->estimateDetailSaved = true;

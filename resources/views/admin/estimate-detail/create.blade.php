@@ -12,7 +12,7 @@
 
         <div class="card-body">
             {{-- {{ $estimate_id }} --}}
-            @livewire('estimate-detail.create', ['estimate_id' => $estimate_id])
+            @livewire('estimate-detail.create', ['estimate_id' => $estimate_id, 'room_id' => $room_id])
             {{-- @livewire('estimate-detail.create') --}}
         </div>
     </div>

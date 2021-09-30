@@ -86,7 +86,7 @@
                                     @endcan --}}
                                     @can('estimate_edit')
                                         <a class="mr-2 btn btn-sm btn-success"
-                                            href="{{ route('admin.estimate-details.edit',['estimate_id' => $estimate->id, 'room_id' => $room['room_id']])}}">
+                                            href="{{ route('admin.estimate-details.create',['estimate_id' => $estimate->id, 'room_id' => $room['room_id'] ])}}">
                                             {{ trans('global.edit') }}
                                         </a>
                                     @endcan

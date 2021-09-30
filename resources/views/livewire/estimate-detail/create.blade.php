@@ -5,15 +5,20 @@
 
         <h2 class="w-1/2">Room name : {{$roomSelectedName}}</h2>
         </div>
-    <div class="py-2 form-group">
-        <label class="form-label required" for="roomSelected">Select Room</label>
-        <select class="w-1/2 form-control"  wire:model="roomSelected" name="roomSelected" id="">
-            <option value="">Select a room</option>
-            @foreach ($allRooms as $room)
-                <option value="{{ $room->id }}">{{ $room->name }} </option>
-            @endforeach
-        </select>
-    </div>
+    @if ($isCreateMode)
+        <div class="py-2 form-group">
+            <label class="form-label required" for="roomSelected">Select Room</label>
+            <select class="w-1/2 form-control"  wire:model="roomSelected" name="roomSelected" id="">
+                <option value="">Select a room</option>
+                @foreach ($allRooms as $room)
+                    <option value="{{ $room->id }}">{{ $room->name }} </option>
+                @endforeach
+            </select>
+        </div>
+    @else
+        <h2 class="w-1/2">Room name : {{$roomSelectedName}}</h2>
+    @endif
+
 
     <div class="overflow-hidden">
         <div class="overflow-x-auto ">

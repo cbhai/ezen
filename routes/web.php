@@ -79,9 +79,14 @@ Auth::routes(['register' => true]);
     Route::resource('workitems', WorkitemController::class, ['except' => ['store', 'update', 'destroy']]);
 
     // Estimate Detail
-    Route::get('estimate-details/create/{estimate_id?}', [
-                    'uses' => 'App\Http\Controllers\Admin\EstimateDetailController@create',
-                    ])->name('estimate-details.create');
+    Route::get('estimate-details/create/{estimate_id}/{room_id?}', [
+        'uses' => 'App\Http\Controllers\Admin\EstimateDetailController@create',
+    ])->name('estimate-details.create');
+
+    // // Estimate Detail
+    // Route::get('estimate-details/create/{estimate_id?}', [
+    //                 'uses' => 'App\Http\Controllers\Admin\EstimateDetailController@create',
+    //                 ])->name('estimate-details.create');
 
     Route::get('estimate-details/edit/{estimate_id}/{room_id}','App\Http\Controllers\Admin\EstimateDetailController@edit')
                 ->name('estimate-details.edit');
