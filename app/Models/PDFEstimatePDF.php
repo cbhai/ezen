@@ -205,7 +205,6 @@ class PDFEstimatePDF
         $type   = pathinfo($this->logo, PATHINFO_EXTENSION);
 
         $data   = file_get_contents($this->logo);
-        dd($data);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
         return $base64;
