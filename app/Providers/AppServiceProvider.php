@@ -28,13 +28,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // //asset helper loads http instead of https and in production causes mix content issue
-        if($this->app->environment('production')){
-            URL::forceScheme('https');
-        }
-
-        // if(env('APP_ENV') !== 'local')
-        // {
-        //     $url->forceSchema('https');
+        // if($this->app->environment('production')){
+        // if(env('APP_ENV') !== 'local'){
+        //     URL::forceScheme('https');
         // }
     }
 }

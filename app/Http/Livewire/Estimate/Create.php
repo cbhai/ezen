@@ -7,15 +7,18 @@ use App\Models\BusinessProfile;
 use App\Models\Customer;
 use App\Models\Estimate;
 use App\Models\EstimateDetail;
+use App\Models\PDFEstimateDetailsItem;
+use App\Models\PDFEstimateItem;
+use App\Models\PDFEstimatePDF;
+use App\Models\PDFRoomItem;
 use App\Models\Room;
 use App\Models\Term;
 use Carbon\Carbon;
 use LaravelDaily\Invoices\Classes\EstimateDetailsItem;
 use LaravelDaily\Invoices\Classes\EstimateItem;
 use LaravelDaily\Invoices\Classes\Party;
-//use LaravelDaily\Invoices\Classes\Party;
-use LaravelDaily\Invoices\Classes\RoomItem;
-use LaravelDaily\Invoices\EstimatePDF;
+// use LaravelDaily\Invoices\Classes\RoomItem;
+// use LaravelDaily\Invoices\EstimatePDF;
 
 use Livewire\Component;
 
@@ -229,7 +232,8 @@ class Create extends Component
         ];
     }
 
-    public function print(){
+    /***
+    public function printbkp(){
 
         $this->validate();
         if(count($this->tableArray) < 1  ){
@@ -333,10 +337,159 @@ class Create extends Component
             $pdfrooms[] = [
                 (new RoomItem())->roomTitle($room['roomName'])->roomTotal($room['roomTotal'])->roomWorkitems($pdfitems)
             ];
+
+            $pdfrooms1[] = [
+                (new PDFRoomItem())->roomTitle($room['roomName'])->roomTotal($room['roomTotal'])->roomWorkitems($pdfitems)
+            ];
+
             unset($pdfitems);
          }
 
-        $invoice = EstimatePDF::make('Estimate')
+        $invoice = PDFEstimatePDF::make('Estimate')
+            ->series('BIG')
+            ->sequence(667)
+            ->serialNumberFormat('{SEQUENCE}/{SERIES}')
+            ->seller($pro)
+            ->buyer($customer)
+            ->date(now()->subWeeks(3))
+            ->dateFormat('d/m/Y')
+            ->payUntilDays(14)
+            ->currencySymbol('$')
+            ->currencyCode('USD')
+            ->currencyFormat('{SYMBOL}{VALUE}')
+            ->currencyThousandsSeparator('.')
+            ->currencyDecimalPoint(',')
+            ->filename($file_name)
+            //->addItems($items)
+            ->addRooms($pdfrooms1)
+            ->addEstimateItem($estimateItem)
+            ->notes($this->estimate->terms)
+            //->logo(public_path('vendor/invoices/sample-logo.png'))
+            ->logo($logo_url)
+            // You can additionally save generated invoice to configured disk
+            ->save('public');
+
+        $link = $invoice->url();
+        // Then send email to party with link
+        //dd($link);
+        //dd($customer->name);
+        return response()->streamDownload(function () use($invoice) {
+            echo  $invoice->stream();
+        }, $file_name);
+    }
+    */
+    public function print(){
+
+        $this->validate();
+        if(count($this->tableArray) < 1  ){
+            return;
+        }
+
+        $logo_url = "";
+        $branding = Branding::where('owner_id', auth()->id())->first();
+
+        foreach($branding->logo as $key => $entry){
+            $logo_url = $entry['url'];
+        }
+        //dd($logo_url);
+        //dd($branding->logo);
+        if(empty($logo_url)){
+            //$logo_url = asset('vendor/invoices/estimate-zen.png');
+            $logo_url = public_path('vendor/invoices/estimate-zen.png');
+        }
+
+        //dd($logo_url);
+
+        $pro = new Party([
+            'business_name' => $this->businessProfile->company_name,
+            'name'          => $this->businessProfile->fullName(),
+            'phone'         => $this->businessProfile->phone,
+            'email'         => $this->businessProfile->email,
+            'address'       => isset($this->businessProfile->street_address) ? $this->businessProfile->street_address : "",
+            'city'          => $this->businessProfile->city,
+            'state'         => $this->businessProfile->state,
+            'custom_fields' => [
+                //'note'        => 'IDDQD',
+                //'business id' => '365#GG',
+            ],
+        ]);
+
+        $customer = new Party([
+            'name'          => $this->customer->fullName() ,
+            'phone'         => isset($this->customer->phone) ? $this->customer->phone : "",
+            'email'         => isset($this->customer->email) ? $this->customer->email : "",
+            'address'       => isset($this->customer->address) ? $this->customer->address : "",
+            'city'          => isset($this->customer->city) ? $this->customer->city : "",
+            'state'         => isset($this->customer->state) ? $this->customer->state : "",
+            'custom_fields' => [
+                //'order number' => '> 654321 <',
+            ],
+        ]);
+
+        // $notes = [
+        //     'Note: This estimate is not a contract or a bill. It is our best guess at the total price to complete the work stated above, based upon our ',
+        //     'initial inspection. If prices changes or additional material and labour are required, we will inform you prior to proceeding with the work.',
+        // ];
+        //$notes = implode("<br>", $this->terms);
+
+        //$this->estimate->terms = $notes;
+
+        //dd($this->estimate->terms);
+        $this->estimate->terms = $this->estimate_terms;
+        $this->estimate->total = $this->estimate_total;
+
+        $pdfEstimateItem = (new PDFEstimateItem())
+                        ->EstimateID($this->estimate->id)
+                        ->EstimateTitle($this->estimate->title)
+                        ->EstimateTotal($this->estimate->total)
+                        ->EstimateDate($this->estimate->date)
+                        ->EstimateTerms($this->estimate->terms)
+                        ->EstimateAddHeader(isset($this->estimate->header) ? $this->estimate->header : 0)
+                        ->EstimateAddFooter (isset($this->estimate->footer) ? $this->estimate->footer : 0)
+                        ->EstimateHeader($branding->header)
+                        ->EstimateFooter($branding->footer);
+
+        //dd($this->estimate->header . '-' . $this->estimate->footer);
+
+        //dd($estimateItem);
+
+        $now = Carbon::now();
+        $unique_code = $now->format('YmdHi');
+        $file_name = 'Estimate-' . $this->customer->fullName() . '-' . $unique_code . '.pdf';
+
+        $pdfrooms = [];
+        foreach($this->tableArray as $room){
+            //dd($this->estimate->id . " " . $room['room_id']);
+
+            $workitems = EstimateDetail::where([
+                ['estimate_id', $this->estimate->id],
+                ['room_id', $room['room_id']],
+            ])->get();
+
+            foreach($workitems as $item){
+
+                $pdfitems[] = [
+                    (new PDFEstimateDetailsItem())
+                        ->WorkitemName($item['name'])
+                        ->WorkitemDescription($item['description'])
+                        ->WorkitemRate($item['rate'])
+                        //->WorkitemUnit($item['unit_type']) cbq4 does not have unit in db
+                        ->WorkitemQuantity($item['quantity'])
+                        ->WorkitemTotal($item['total'])
+                ];
+            }
+
+
+            $pdfrooms[] = [
+                (new PDFRoomItem())->roomTitle($room['roomName'])->roomTotal($room['roomTotal'])->roomWorkitems($pdfitems)
+            ];
+
+            unset($pdfitems);
+         }
+
+         //dd($logo_url);
+
+        $invoice = PDFEstimatePDF::make('Estimate')
             ->series('BIG')
             ->sequence(667)
             ->serialNumberFormat('{SEQUENCE}/{SERIES}')
@@ -353,7 +506,7 @@ class Create extends Component
             ->filename($file_name)
             //->addItems($items)
             ->addRooms($pdfrooms)
-            ->addEstimateItem($estimateItem)
+            ->addEstimateItem($pdfEstimateItem)
             ->notes($this->estimate->terms)
             //->logo(public_path('vendor/invoices/sample-logo.png'))
             ->logo($logo_url)

@@ -5,7 +5,7 @@
             <div class="w-full px-4 md:w-4/12">
                 <div class="py-1 text-sm font-semibold text-center text-blueGray-500 md:text-left">
                     <div>
-                        Copyright © <span id="get-current-year">{{ date('Y') }} - Estimate Zen LLP</span>
+                        Copyright © <span id="get-current-year">{{ date('Y') }} - EstimateZen LLP</span>
                     </div>
                     {{-- Theme <a href="https://www.creative-tim.com/product/notus-js" class="py-1 text-sm font-semibold text-blueGray-500 hover:text-blueGray-700" target="_blank">NotusJS</a> by
                     <a href="https://www.creative-tim.com" class="py-1 text-sm font-semibold text-blueGray-500 hover:text-blueGray-700" target="_blank">
