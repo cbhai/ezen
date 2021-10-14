@@ -473,7 +473,7 @@ class Create extends Component
                         ->WorkitemName($item['name'])
                         ->WorkitemDescription($item['description'])
                         ->WorkitemRate($item['rate'])
-                        //->WorkitemUnit($item['unit_type']) cbq4 does not have unit in db
+                        ->WorkitemUnit($item['unit'])
                         ->WorkitemQuantity($item['quantity'])
                         ->WorkitemTotal($item['total'])
                 ];
