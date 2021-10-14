@@ -1,15 +1,38 @@
 <form wire:submit.prevent="submit" class="pt-3">
 
-    <div class="form-group {{ $errors->has('estimate.title') ? 'invalid' : '' }}">
-        <label class="form-label required" for="title">{{ trans('cruds.estimate.fields.title') }}</label>
-        <input class="form-control" type="text" name="title" id="title" required wire:model.defer="estimate.title">
-        <div class="validation-message">
-            {{ $errors->first('estimate.title') }}
+    <div class="flex flex-wrap">
+        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+    		<div class="form-group {{ $errors->has('estimate.customer_id') ? 'invalid' : '' }}">
+                <label class="form-label required" for="customer">{{ trans('cruds.estimate.fields.customer') }}</label>
+                <select class="form-control"  wire:model="estimate.customer_id" required id="customer" name="customer">
+                    <option value="">Select Customer</option>
+                    @foreach ($allCustomers as $customer)
+                        <option value="{{ $customer->id }}">{{ $customer->first_name . ' ' . $customer->last_name }} </option>
+                    @endforeach
+                </select>
+                <div class="validation-message">
+                    {{ $errors->first('estimate.customer_id') }}
+                </div>
+                <div class="help-block">
+                    {{ trans('cruds.estimate.fields.customer_helper') }}
+                </div>
+            </div>
         </div>
-        <div class="help-block">
-            {{ trans('cruds.estimate.fields.title_helper') }}
+        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+            <div class="form-group {{ $errors->has('estimate.title') ? 'invalid' : '' }}">
+                <label class="form-label required" for="title">Estimate Title</label>
+                <input class="form-control" type="text" name="title" id="title" required wire:model.defer="estimate.title">
+                <div class="validation-message">
+                    {{ $errors->first('estimate.title') }}
+                </div>
+                <div class="help-block">
+                    {{ trans('cruds.estimate.fields.title_helper') }}
+                </div>
+            </div>
         </div>
     </div>
+
+
     {{-- <div class="form-group {{ $errors->has('estimate.customer_id') ? 'invalid' : '' }}">
         <label class="form-label required" for="customer">{{ trans('cruds.estimate.fields.customer') }}</label>
         <x-select-list class="form-control" required id="customer" name="customer" :options="$this->listsForFields['customer']" wire:model="estimate.customer_id" />
@@ -21,38 +44,28 @@
         </div>
     </div> --}}
 
-    <div class="form-group {{ $errors->has('estimate.customer_id') ? 'invalid' : '' }}">
-        <label class="form-label required" for="customer">{{ trans('cruds.estimate.fields.customer') }}</label>
-        <select class="form-control"  wire:model="estimate.customer_id" required id="customer" name="customer">
-            <option value="">Select Customer</option>
-            @foreach ($allCustomers as $customer)
-                <option value="{{ $customer->id }}">{{ $customer->first_name . ' ' . $customer->last_name }} </option>
-            @endforeach
-        </select>
-        <div class="validation-message">
-            {{ $errors->first('estimate.customer_id') }}
+    <div class="flex flex-wrap">
+        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+            <div class="form-group">
+                <label class="form-label required" for="Customer Details">Customer Details : </label>
+                {{$this->customer['first_name'] . ' ' . $this->customer['last_name']}}<br>
+                {{$this->customer['address']}}<br>
+                {{$this->customer['city'] . ' , ' . $this->customer['state'] }}<br>
+                {{$this->customer['phone']}}<br>
+                {{$this->customer['email']}}<br>
+            </div>
         </div>
-        <div class="help-block">
-            {{ trans('cruds.estimate.fields.customer_helper') }}
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="form-label required" for="Customer Details">Customer Details : </label>
-        {{$this->customer['first_name'] . ' ' . $this->customer['last_name']}}<br>
-        {{$this->customer['address']}}<br>
-        {{$this->customer['city'] . ' , ' . $this->customer['state'] }}<br>
-        {{$this->customer['phone']}}<br>
-        {{$this->customer['email']}}<br>
-    </div>
-
-    <div class="form-group {{ $errors->has('estimate.date') ? 'invalid' : '' }}">
-        <label class="form-label required" for="date">{{ trans('cruds.estimate.fields.date') }}</label>
-        <x-date-picker class="form-control" required wire:model="estimate.date" id="date" name="date" picker="date" />
-        <div class="validation-message">
-            {{ $errors->first('estimate.date') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.estimate.fields.date_helper') }}
+        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+            <div class="form-group {{ $errors->has('estimate.date') ? 'invalid' : '' }}">
+                <label class="form-label required" for="date">{{ trans('cruds.estimate.fields.date') }}</label>
+                <x-date-picker class="form-control" required wire:model="estimate.date" id="date" name="date" picker="date" />
+                <div class="validation-message">
+                    {{ $errors->first('estimate.date') }}
+                </div>
+                <div class="help-block">
+                    {{ trans('cruds.estimate.fields.date_helper') }}
+                </div>
+            </div>
         </div>
     </div>
 
@@ -102,7 +115,13 @@
                         @endif
 
                         @empty
-                        <tr>No Rooms added yet. Add Rooms</tr>
+                        <tr>
+                            <td>
+                                <span class="inline-block px-2 py-1 mr-1 text-xs font-semibold text-indigo-600 uppercase bg-indigo-200 rounded last:mr-0">
+                                    No Rooms added yet! ADD ROOMS
+                                  </span>
+                            </td>
+                        </tr>
                         @endforelse
                 </tbody>
             </table>
@@ -113,7 +132,7 @@
     {{-- Add Room ends here --}}
 
 
-    <div>
+    <div class="pt-8">
         <button class="mr-2 btn btn-success" type="button"
             wire:click.prevent="addRoom">Add Room</button>
     </div>
@@ -121,7 +140,7 @@
 
 
 
-    <div class="form-group {{ $errors->has('estimate.terms') ? 'invalid' : '' }}">
+    <div class="pt-8 form-group {{ $errors->has('estimate.terms') ? 'invalid' : '' }}">
         <label class="form-label" for="terms">{{ trans('cruds.estimate.fields.terms') }}</label>
         <textarea class="form-control" name="terms" id="terms" wire:model.defer="estimate_terms" rows="4"></textarea>
         <div class="validation-message">
@@ -131,27 +150,35 @@
             {{ trans('cruds.estimate.fields.terms_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('estimate.header') ? 'invalid' : '' }}">
-        <label class="form-label" for="header">{{ trans('cruds.estimate.fields.header') }}</label>
-        <input class="form-control" type="checkbox" name="header" id="header" wire:model.defer="estimate.header">
-        <div class="validation-message">
-            {{ $errors->first('estimate.header') }}
+
+    <div class="flex flex-wrap pt-4">
+        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+            <div class="form-group {{ $errors->has('estimate.header') ? 'invalid' : '' }}">
+                <label class="form-label" for="header">{{ trans('cruds.estimate.fields.header') }}</label>
+                <input class="form-control" type="checkbox" name="header" id="header" wire:model.defer="estimate.header">
+                <div class="validation-message">
+                    {{ $errors->first('estimate.header') }}
+                </div>
+                <div class="help-block">
+                    {{ trans('cruds.estimate.fields.header_helper') }}
+                </div>
+            </div>
         </div>
-        <div class="help-block">
-            {{ trans('cruds.estimate.fields.header_helper') }}
+        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+            <div class="form-group {{ $errors->has('estimate.footer') ? 'invalid' : '' }}">
+                <label class="form-label" for="footer">{{ trans('cruds.estimate.fields.footer') }}</label>
+                <input class="form-control" type="checkbox" name="footer" id="footer" wire:model.defer="estimate.footer">
+                <div class="validation-message">
+                    {{ $errors->first('estimate.footer') }}
+                </div>
+                <div class="help-block">
+                    {{ trans('cruds.estimate.fields.footer_helper') }}
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group {{ $errors->has('estimate.footer') ? 'invalid' : '' }}">
-        <label class="form-label" for="footer">{{ trans('cruds.estimate.fields.footer') }}</label>
-        <input class="form-control" type="checkbox" name="footer" id="footer" wire:model.defer="estimate.footer">
-        <div class="validation-message">
-            {{ $errors->first('estimate.footer') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.estimate.fields.footer_helper') }}
-        </div>
-    </div>
-    <div class="form-group {{ $errors->has('estimate.total') ? 'invalid' : '' }}">
+
+    <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 pr-4 form-group {{ $errors->has('estimate.total') ? 'invalid' : '' }}">
         <label class="form-label required" for="total">{{ trans('cruds.estimate.fields.total') }}</label>
         <input class="form-control" disabled type="number" name="total" id="total" required wire:model.defer="estimate_total" step="0.01">
         <div class="validation-message">
