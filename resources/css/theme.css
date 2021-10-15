@@ -31,7 +31,7 @@
 }
 
 .btn {
-    @apply inline-block font-bold border-transparent uppercase justify-center text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none focus:ring-2 focus:ring-offset-2 mr-1 ease-linear transition-all duration-150 cursor-pointer;
+    @apply justify-center inline-block px-4 py-2 mr-1 text-xs font-bold uppercase transition-all duration-150 ease-linear border-transparent rounded shadow outline-none cursor-pointer hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2;
 }
 
 .btn-sm {
@@ -131,15 +131,24 @@ input[type=email].form-control,
 input[type=number].form-control,
 input[type=password].form-control,
 textarea.form-control {
-    @apply border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring;
+    @apply px-3 py-3 text-sm bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring;
+}
+
+input[type=text].estimate-control,
+textarea.estimate-control {
+    @apply text-sm bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring;
+}
+
+input[type=number].estimate-control{
+    @apply text-sm text-right bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring;
 }
 
 .flatpickr input[type=text].form-control {
-    @apply border-0 px-3 py-3 pl-10 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring;
+    @apply px-3 py-3 pl-10 text-sm bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring;
 }
 
 .flatpickr input[type=text].form-control:required {
-    @apply border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring;
+    @apply px-3 py-3 text-sm bg-white border-0 rounded shadow placeholder-blueGray-300 text-blueGray-600 focus:outline-none focus:ring;
 }
 
 .table {
@@ -171,6 +180,23 @@ textarea.form-control {
 .table.table-index > tbody > tr:hover {
     @apply bg-blueGray-50
 }
+
+
+
+.table.table-estimate th {
+    @apply px-1 py-1 border-l-0 border-r-0 border-blueGray-100
+}
+
+.table.table-estimate td {
+    @apply px-1 py-1 border-t border-dashed
+}
+
+.table.table-estimate > tbody > tr:hover {
+    @apply bg-blueGray-50
+}
+
+
+
 
 .table.table-messages th {
     @apply px-6 py-3 border-l-0 border-r-0 border-blueGray-100
@@ -208,7 +234,7 @@ textarea.form-control {
 }
 
 .link-light-blue {
-    @apply text-lightBlue-500 flex items-center hover:underline last:mb-0 mb-1;
+    @apply flex items-center mb-1 text-lightBlue-500 hover:underline last:mb-0;
 }
 
 .link-light-blue i {
@@ -216,11 +242,11 @@ textarea.form-control {
 }
 
 .link-photo {
-    @apply inline-block last:mr-0 mr-1;
+    @apply inline-block mr-1 last:mr-0;
 }
 
 .radio-label {
-    @apply flex items-center last:mb-0 mb-1 cursor-pointer;
+    @apply flex items-center mb-1 cursor-pointer last:mb-0;
 }
 
 .radio-label input[type=radio] {

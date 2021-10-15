@@ -1,7 +1,6 @@
 <form wire:submit.prevent="submit" class="pt-3">
 
-    <div
-        class="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 pr-4 form-group {{ $errors->has('businessProfile.business_name') ? 'invalid' : '' }}">
+    <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 pr-4 form-group {{ $errors->has('businessProfile.business_name') ? 'invalid' : '' }}">
         <label class="form-label required"
             for="business_name">{{ trans('cruds.businessProfile.fields.business_name') }}</label>
         <input class="form-control" type="text" name="business_name" id="business_name" required
@@ -13,8 +12,8 @@
             {{ trans('cruds.businessProfile.fields.business_name_helper') }}
         </div>
     </div>
-    <div class="flex flex-wrap">
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+    <div class="flex flex-wrap pt-4">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.first_name') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="first_name">{{ trans('cruds.businessProfile.fields.first_name') }}</label>
@@ -28,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.last_name') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="last_name">{{ trans('cruds.businessProfile.fields.last_name') }}</label>
@@ -43,10 +42,8 @@
             </div>
         </div>
     </div>
-
-
-    <div class="flex flex-wrap">
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+    <div class="flex flex-wrap pt-4">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.phone') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="phone">{{ trans('cruds.businessProfile.fields.phone') }}</label>
@@ -60,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.email') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="email">{{ trans('cruds.businessProfile.fields.email') }}</label>
@@ -87,8 +84,8 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap">
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+    <div class="flex flex-wrap pt-4">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.city') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="city">{{ trans('cruds.businessProfile.fields.city') }}</label>
@@ -102,7 +99,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.state') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="state">{{ trans('cruds.businessProfile.fields.state') }}</label>
@@ -117,9 +114,7 @@
             </div>
         </div>
     </div>
-
-    <div
-        class="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 pr-4 form-group {{ $errors->has('businessProfile.pin_code') ? 'invalid' : '' }}">
+    <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 pr-4 form-group {{ $errors->has('businessProfile.pin_code') ? 'invalid' : '' }}">
         <label class="form-label required"
             for="pin_code">{{ trans('cruds.businessProfile.fields.pin_code') }}</label>
         <input class="form-control" type="text" name="pin_code" id="pin_code" required
@@ -131,8 +126,7 @@
             {{ trans('cruds.businessProfile.fields.pin_code_helper') }}
         </div>
     </div>
-    <div
-        class="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 pr-4 form-group {{ $errors->has('businessProfile.about') ? 'invalid' : '' }}">
+    <div class="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 pr-4 form-group {{ $errors->has('businessProfile.about') ? 'invalid' : '' }}">
         <label class="form-label" for="about">{{ trans('cruds.businessProfile.fields.about') }}</label>
         <textarea class="form-control" name="about" id="about" wire:model.defer="businessProfile.about"
             rows="4"></textarea>
@@ -143,7 +137,6 @@
             {{ trans('cruds.businessProfile.fields.about_helper') }}
         </div>
     </div>
-
     <div class="form-group">
         <button class="mr-2 btn btn-indigo" type="submit">
             {{ trans('global.save') }}

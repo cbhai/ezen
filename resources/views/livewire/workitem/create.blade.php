@@ -1,7 +1,6 @@
 <form wire:submit.prevent="submit" class="pt-3">
-
     <div class="flex flex-wrap">
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('workitem.room_id') ? 'invalid' : '' }}">
                 <label class="form-label required" for="room">{{ trans('cruds.workitem.fields.room') }}</label>
                 <x-select-list class="form-control" required id="room" name="room" :options="$this->listsForFields['room']" wire:model="workitem.room_id" />
@@ -13,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('workitem.name') ? 'invalid' : '' }}">
                 <label class="form-label required" for="name">{{ trans('cruds.workitem.fields.name') }}</label>
                 <input class="form-control" type="text" name="name" id="name" required wire:model.defer="workitem.name">
@@ -26,9 +25,6 @@
             </div>
         </div>
     </div>
-
-
-
     <div class="pr-4 form-group {{ $errors->has('workitem.description') ? 'invalid' : '' }}">
         <label class="form-label required" for="description">{{ trans('cruds.workitem.fields.description') }}</label>
         <textarea class="form-control" name="description" id="description" required wire:model.defer="workitem.description" rows="4"></textarea>
@@ -39,10 +35,8 @@
             {{ trans('cruds.workitem.fields.description_helper') }}
         </div>
     </div>
-
-
-    <div class="flex flex-wrap">
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+    <div class="flex flex-wrap pt-4">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('workitem.rate') ? 'invalid' : '' }}">
                 <label class="form-label required" for="rate">{{ trans('cruds.workitem.fields.rate') }}</label>
                 <input class="form-control" type="number" name="rate" id="rate" required wire:model.defer="workitem.rate" step="0.01">
@@ -54,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('workitem.unit') ? 'invalid' : '' }}">
                 <label class="form-label required">{{ trans('cruds.workitem.fields.unit') }}</label>
                 <select class="form-control" wire:model="workitem.unit">
@@ -72,7 +66,6 @@
             </div>
         </div>
     </div>
-
     <div class="form-group">
         <button class="mr-2 btn btn-indigo" type="submit">
             {{ trans('global.save') }}

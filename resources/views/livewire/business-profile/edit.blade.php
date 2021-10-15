@@ -13,8 +13,8 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap">
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+    <div class="flex flex-wrap pt-4">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.first_name') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="first_name">{{ trans('cruds.businessProfile.fields.first_name') }}</label>
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.last_name') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="last_name">{{ trans('cruds.businessProfile.fields.last_name') }}</label>
@@ -44,8 +44,8 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap">
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+    <div class="flex flex-wrap pt-4">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.phone') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="phone">{{ trans('cruds.businessProfile.fields.phone') }}</label>
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
             <div class="form-group {{ $errors->has('businessProfile.email') ? 'invalid' : '' }}">
                 <label class="form-label required"
                     for="email">{{ trans('cruds.businessProfile.fields.email') }}</label>
@@ -87,8 +87,8 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap">
-        <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+    <div class="flex flex-wrap pt-4">
+        <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
 		    <div class="form-group {{ $errors->has('businessProfile.city') ? 'invalid' : '' }}">
                 <label class="form-label required" for="city">{{ trans('cruds.businessProfile.fields.city') }}</label>
                 <input class="form-control" type="text" name="city" id="city" required
@@ -101,7 +101,7 @@
                 </div>
             </div>
 	    </div>
-	    <div class="w-full pr-4 mb-4 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+	    <div class="w-full pr-4 mb-4 md:w-1/2 lg:w-1/2 xl:w-1/2">
 		    <div class="form-group {{ $errors->has('businessProfile.state') ? 'invalid' : '' }}">
                 <label class="form-label required" for="state">{{ trans('cruds.businessProfile.fields.state') }}</label>
                 <input class="form-control" type="text" name="state" id="state" required

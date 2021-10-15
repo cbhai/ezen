@@ -6,9 +6,7 @@
             <div class="card-header-container">
                 <h6 class="card-title">
                     {{ trans('global.edit') }}
-                    {{ trans('cruds.term.title_singular') }}:
-                    {{ trans('cruds.term.fields.id') }}
-                    {{ $term->id }}
+                    {{ trans('cruds.term.title_singular') }}
                 </h6>
             </div>
         </div>

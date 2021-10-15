@@ -1,12 +1,13 @@
 <div>
-    <div class="flex py-2 form-group">
-        <h2 class="w-1/2">Project title: {{$estimate['title']}}</h2>
-        <h2 class="w-1/2">Estimate ID : {{$estimate['id']}}</h2>
+    <div class="w-full pt-4 form-group">
+        <label class="form-label">ESTIMATE TITLE:</label>
+        <span class="badge badge-relationship">{{$estimate['title']}}</span>
+    </div>
+    
+    {{-- <h2 class="w-1/2">Estimate ID : {{$estimate['id']}}</h2> --}}
 
-        <h2 class="w-1/2">Room name : {{$roomSelectedName}}</h2>
-        </div>
     @if ($isCreateMode)
-        <div class="py-2 form-group">
+        <div class="py-2 pt-4 form-group">
             <label class="form-label required" for="roomSelected">Select Room</label>
             <select class="w-1/2 form-control"  wire:model="roomSelected" name="roomSelected" id="">
                 <option value="">Select a room</option>
@@ -16,52 +17,54 @@
             </select>
         </div>
     @else
-        <h2 class="w-1/2">Room name : {{$roomSelectedName}}</h2>
+        <div class="w-full pt-4 form-group">
+            <label class="form-label">ROOM NAME:</label>
+            <span class="badge badge-relationship">{{$roomSelectedName}}</span>
+        </div>
     @endif
 
 
-    <div class="overflow-hidden">
-        <div class="overflow-x-auto ">
+    <div class="pt-4 overflow-hidden">
+        <div class="overflow-x-auto">
             <table @if (!$showTable) style="display:none" @endif
-                class="table w-full border-solid table-index">
+                class="table w-full border border-solid table-estimate">
                 <thead>
                     <tr>
-                        <th>
-                            {{ trans('cruds.estimateDetail.fields.name') }}
+                        <th class="w-28">
+                            NAME
                         </th>
-                        <th>
-                            {{ trans('cruds.estimateDetail.fields.description') }}
+                        <th class="w-60">
+                            DESCRIPTION
                         </th>
-                        <th>
-                            {{ trans('cruds.estimateDetail.fields.rate') }}
+                        <th class="w-20">
+                            RATE
                         </th>
-                        <th>
-                            {{-- {{ trans('cruds.estimateDetail.fields.unit') }} --}}
+                        <th class="w-20">
                             Unit
                         </th>
-                        <th>
-                            {{ trans('cruds.estimateDetail.fields.quantity') }}
+                        <th class="w-20">
+                            QTY
                         </th>
-                        <th>
-                            {{ trans('cruds.estimateDetail.fields.total') }}
+                        <th class="text-right w-28">">
+                            TOTAL
                         </th>
-                        <th>
+                        <th class="28">
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($arrEstimateDetails as $index => $estimateDetail)
                     <tr>
-                        <td>
+                        <td class="28">
                             @if ($estimateDetail['is_saved'])
                                  {{ $estimateDetail['name'] }}
                             @else
                                 @if ($estimateDetail['row_type'] == 'addAllWorkitems')
-                                    <input class="form-control" type="text"
+                                    <input class="w-32 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][name]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.name">
                                 @elseif ($estimateDetail['row_type'] == 'addCustomWorkitem')
-                                    <input class="form-control" type="text"
+                                    <input class="w-32 estimate-control" type="text"
                                         name="arrEstimateDetails[{{$index}}][name]" required
                                         wire:model.defer="arrEstimateDetails.{{$index}}.name">
                                 @elseif ($estimateDetail['row_type'] == 'addWorkitem')
@@ -87,20 +90,20 @@
                                 </em>
                             @endif
                         </td>
-                        <td>
+                        <td class="60">
                             @if ($estimateDetail['is_saved'])
                             {{ $estimateDetail['description'] }}
                             @else
                                 @if ($estimateDetail['row_type'] == 'addAllWorkitems')
-                                <input class="form-control" type="text"
+                                <input class="w-60 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][description]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.description">
                                 @elseif ($estimateDetail['row_type'] == 'addCustomWorkitem')
-                                <input class="form-control" type="text"
+                                <input class="w-60 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][description]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.description">
                                 @elseif ($estimateDetail['row_type'] == 'addWorkitem')
-                                <input class="form-control" type="text"
+                                <input class="w-60 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][description]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.description">
                                 @endif
@@ -111,20 +114,20 @@
                                 @endif
                             @endif
                         </td>
-                        <td>
+                        <td class="w-20">
                             @if ($estimateDetail['is_saved'])
                             {{ $estimateDetail['rate'] }}
                             @else
                                 @if ($estimateDetail['row_type'] == 'addAllWorkitems')
-                                <input class="form-control" type="text"
+                                <input class="w-20 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][rate]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.rate">
                                 @elseif ($estimateDetail['row_type'] == 'addCustomWorkitem')
-                                <input class="form-control" type="text"
+                                <input class="w-20 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][rate]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.rate">
                                 @elseif ($estimateDetail['row_type'] == 'addWorkitem')
-                                <input class="form-control" type="text"
+                                <input class="w-20 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][rate]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.rate">
                                 @endif
@@ -135,44 +138,46 @@
                                 @endif
                             @endif
                         </td>
-                        <td>
+                        <td class="w-20 text-left">
                             @if ($estimateDetail['is_saved'])
                             {{ $estimateDetail['unit'] }}
                             @else
                                 @if ($estimateDetail['row_type'] == 'addAllWorkitems')
-                                <input disabled class="form-control" type="text"
+                                {{ $estimateDetail['unit'] }}
+                                {{-- <input disabled class="w-12 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][unit]" required
-                                         wire:model.defer="arrEstimateDetails.{{$index}}.unit">
+                                         wire:model.defer="arrEstimateDetails.{{$index}}.unit"> --}}
                                 @elseif ($estimateDetail['row_type'] == 'addCustomWorkitem')
                                     <select class="form-control"
                                         wire:model="arrEstimateDetails.{{$index}}.unit"
                                         name="arrEstimateDetails[{{$index}}][unit]">
-                                        <option value="">Select workitem</option>
+                                        <option value="">Select Unit Type</option>
                                         <option value="sft">Per Sq.ft.</option>
                                         <option value="rft">Per R.ft.</option>
                                         <option value="lumsum">Lumsum</option>
                                     </select>
                                 @elseif ($estimateDetail['row_type'] == 'addWorkitem')
-                                <input disabled class="form-control" type="text"
+                                {{ $estimateDetail['unit'] }}
+                                {{-- <input disabled class="w-12 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][unit]" required
-                                         wire:model.defer="arrEstimateDetails.{{$index}}.unit">
+                                         wire:model.defer="arrEstimateDetails.{{$index}}.unit"> --}}
                                 @endif
                             @endif
                         </td>
-                        <td>
+                        <td class="w-20">
                             @if ($estimateDetail['is_saved'])
                             {{ $estimateDetail['quantity'] }}
                             @else
                                 @if ($estimateDetail['row_type'] == 'addAllWorkitems')
-                                <input class="form-control" type="text"
+                                <input class="w-20 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][quantity]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.quantity">
                                 @elseif ($estimateDetail['row_type'] == 'addCustomWorkitem')
-                                <input class="form-control" type="text"
+                                <input class="w-20 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][quantity]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.quantity">
                                 @elseif ($estimateDetail['row_type'] == 'addWorkitem')
-                                <input class="form-control" type="text"
+                                <input class="w-20 estimate-control" type="text"
                                          name="arrEstimateDetails[{{$index}}][quantity]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.quantity">
                                 @endif
@@ -183,78 +188,64 @@
                                 @endif
                             @endif
                         </td>
-                        <td>
-                            @if ($estimateDetail['is_saved'])
+                        <td class="text-right w-28">
                             {{$estimateDetail['total']}}
+                            {{-- @if ($estimateDetail['is_saved'])
+                                {{$estimateDetail['total']}}
                             @else
-                                @if ($estimateDetail['row_type'] == 'addAllWorkitems')
-                                <input disabled class="form-control" type="text"
+                            @if ($estimateDetail['row_type'] == 'addAllWorkitems')
+                                <input disabled class="w-28 estimate-control" type="number"
                                          name="arrEstimateDetails[{{$index}}][total]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.total">
                                 @elseif ($estimateDetail['row_type'] == 'addCustomWorkitem')
-                                <input disabled class="form-control" type="text"
+                                <input disabled class="w-28 estimate-control" type="number"
                                          name="arrEstimateDetails[{{$index}}][total]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.total">
                                 @elseif ($estimateDetail['row_type'] == 'addWorkitem')
-                                <input disabled class="form-control" type="text"
+                                <input disabled class="w-28 estimate-control" type="number"
                                          name="arrEstimateDetails[{{$index}}][total]" required
                                          wire:model.defer="arrEstimateDetails.{{$index}}.total">
                                 @endif
-                            @endif
+                            @endif --}}
                         </td>
-                        <td>
+                        <td class="w-28">
                             <div class="flex justify-end">
                                 @if ($estimateDetail['is_saved'])
                                 <button class="mr-2 btn btn-sm btn-info" wire:click.prevent="editWorkitem({{$index}})">Edit</button>
                                 @else
                                 <button class="mr-2 btn btn-sm btn-success" wire:click.prevent="saveWorkitem({{$index}})">Save</button>
                                 @endif
-                                <button class="mr-2 btn btn-sm btn-rose" wire:click.prevent="removeWorkitem({{$index}})">Delete</button>
+                                {{-- <button class="mr-2 btn btn-sm btn-rose" wire:click.prevent="removeWorkitem({{$index}})"><i class="fa fa-trash"></i></button> --}}
+                                <button class="btn btn-rose btn-sm" wire:click.prevent="removeWorkitem({{$index}})"><i class="fa fa-trash"></i></button>
                             </div>
-                            {{-- <div class="flex justify-end">
-                                @can('estimate_detail_show')
-                                    <a class="mr-2 btn btn-sm btn-info" href="{{ route('admin.estimate-details.show', $estimateDetail) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-                                @can('estimate_detail_edit')
-                                    <a class="mr-2 btn btn-sm btn-success" href="{{ route('admin.estimate-details.edit', $estimateDetail) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-                                @can('estimate_detail_delete')
-                                    <button class="mr-2 btn btn-sm btn-rose" type="button" wire:click="confirm('delete', {{ $estimateDetail->id }})" wire:loading.attr="disabled">
-                                        {{ trans('global.delete') }}
-                                    </button>
-                                @endcan --}}
                             </div>
                         </td>
                     </tr>
                     @empty
                         <tr>
-                            <td colspan="10">No Workitems added yet.</td>
+                            <td colspan="7">No Workitems added yet.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="form-group">
-
+    <div class="pt-4 form-group">
         <div>
             <button @if (!$showAddItem) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="addWorkitem">Add Item</button>
             <button @if (!$showAddCustomItem) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="addCustomWorkitem">Add Custom Item</button>
             <button @if (!$showAddAllItem) style="display:none" @endif class="mr-2 btn btn-bg btn-info" wire:click.prevent="addAllWorkitems">Add All Items</button>
         </div>
     </div>
-    <div class="form-group">
-        <h2 class="w-1/2 justify-left">Total : {{$roomTotal}}</h2>
+    <div class="w-full pt-4 form-group">
+        <label class="form-label">ROOM TOTAL:</label>
+        <span class="badge badge-relationship">{{$roomTotal}}</span>
     </div>
-    <div class="form-group">
+    <div class="pt-4 form-group">
         <div>
-            <button @if (!$showSaveRoom) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="saveEstimateDetails">Save Room</button>
+            <button @if (!$showSaveRoom) style="display:none" @endif class="mr-2 btn btn-bg btn-info" wire:click.prevent="saveEstimateDetails">Save Room</button>
             {{-- <button @if (!$showEditRoom) style="display:none" @endif class="mr-2 btn btn-sm btn-info" wire:click.prevent="saveRoom">Edit Room</button> --}}
-            <button class="mr-2 btn btn-sm btn-rose" wire:click.prevent="cancel">{{ trans('global.cancel') }}</button>
+            <button class="mr-2 btn btn-bg btn-rose" wire:click.prevent="cancel">{{ trans('global.cancel') }}</button>
         </div>
     </div>
 

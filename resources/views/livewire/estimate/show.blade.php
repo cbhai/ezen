@@ -289,6 +289,8 @@
         </div>
         <div class="form-group">
             @can('estimate_edit')
+                <button class="mr-2 btn btn-bg btn-success" type="button"
+                wire:click.prevent="print">Print</button>
                 <a href="{{ route('admin.estimates.edit', $estimate) }}" class="mr-2 btn btn-indigo">
                     {{ trans('global.edit') }}
                 </a>

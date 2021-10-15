@@ -211,6 +211,7 @@ class Create extends Component
         foreach($this->allWorkitems as $item){
             //ddd($item);
             $this->arrEstimateDetails[] = [
+                'id' => null,
                 'name' => $item->name,
                 'description' => $item->description,
                 'unit' => $item->unit,
@@ -331,12 +332,21 @@ class Create extends Component
         $this->arrEstimateDetails[$index]['is_saved'] = true;
     }
     public function removeWorkitem($index){
-        $this->roomTotal = $this->roomTotal -  $this->arrEstimateDetails[$index]['total'];
+
+        //total will be null is new rows are added and immediately removed
+        if(!empty($this->arrEstimateDetails[$index]['total'])){
+            $this->roomTotal = $this->roomTotal -  $this->arrEstimateDetails[$index]['total'];
+
+        }
+        
 
         //is in Edit mode you have to also delete estimatedetails from database
         if(!$this->isCreateMode){
-            $eDetailDeleted = EstimateDetail::find($this->arrEstimateDetails[$index]['id']);
-            $eDetailDeleted->delete();
+            //id will be null if new rows added and immediately removed
+            if(!empty($this->arrEstimateDetails[$index]['id'])){
+                $eDetailDeleted = EstimateDetail::find($this->arrEstimateDetails[$index]['id']);
+                $eDetailDeleted->delete();
+            }
         }
 
         unset($this->arrEstimateDetails[$index]);
