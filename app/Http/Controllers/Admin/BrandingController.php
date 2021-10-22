@@ -14,16 +14,19 @@ class BrandingController extends Controller
     {
         abort_if(Gate::denies('branding_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $branding = Branding::where('owner_id', auth()->id())->first();
+        $isAdmin = auth()->user()->roles->contains(1);
+        if (!$isAdmin) {
+            $branding = Branding::where('owner_id', auth()->id())->first();
 
-        if(empty($branding)){
-            return view('admin.branding.create');
+            if(empty($branding)){
+                return view('admin.branding.create');
+            }else{
+                $branding->load('owner');
+                return view('admin.branding.show', compact('branding'));
+            }
         }else{
-            $branding->load('owner');
-            return view('admin.branding.show', compact('branding'));
+            return view('admin.branding.index');
         }
-
-        //return view('admin.branding.index');
     }
 
     public function create()

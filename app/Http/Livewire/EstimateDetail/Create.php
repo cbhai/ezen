@@ -338,7 +338,7 @@ class Create extends Component
             $this->roomTotal = $this->roomTotal -  $this->arrEstimateDetails[$index]['total'];
 
         }
-        
+
 
         //is in Edit mode you have to also delete estimatedetails from database
         if(!$this->isCreateMode){
@@ -396,8 +396,13 @@ class Create extends Component
     }
 
     public function saveEstimateDetails(){
-        //$this->validate();
 
+        foreach ($this->arrEstimateDetails as $key => $item) {
+            if (!$item['is_saved']) {
+                $this->addError('arrEstimateDetails.' . $key, 'This line must be saved before creating a new one.');
+                return;
+            }
+        }
         //$this->estimateDetail->save();
         if($this->isCreateMode){
 

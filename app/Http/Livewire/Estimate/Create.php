@@ -47,6 +47,11 @@ class Create extends Component
         $this->estimate->footer = true;
         //$this->initListsForFields();
 
+        //TO-BE-DONE Future KNOWN ISSUE
+        //When admin or team head will use this, it will break because for already created estimate
+        //owner_id could be someone else. Here by default we are pulling auth()->id all the time
+        //if admin is editing someone else's estimate, wrong auth-id will get used.
+
         //This is must. If business profile still not filled redirect user
         $this->businessProfile = BusinessProfile::where('owner_id', auth()->id())->first();
 

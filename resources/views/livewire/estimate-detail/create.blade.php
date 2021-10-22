@@ -3,7 +3,7 @@
         <label class="form-label">ESTIMATE TITLE:</label>
         <span class="badge badge-relationship">{{$estimate['title']}}</span>
     </div>
-    
+
     {{-- <h2 class="w-1/2">Estimate ID : {{$estimate['id']}}</h2> --}}
 
     @if ($isCreateMode)
@@ -45,7 +45,7 @@
                         <th class="w-20">
                             QTY
                         </th>
-                        <th class="text-right w-28">">
+                        <th class="text-right w-28">
                             TOTAL
                         </th>
                         <th class="28">

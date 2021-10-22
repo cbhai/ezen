@@ -38,7 +38,8 @@ class Show extends Component
 
     public function mount($estimate)
     {
-        $this->businessProfile = BusinessProfile::where('owner_id', auth()->id())->first();
+        //dd($estimate->owner_id);
+        $this->businessProfile = BusinessProfile::where('owner_id', $estimate->owner_id)->first();
 
         $this->estimate = $estimate;
 

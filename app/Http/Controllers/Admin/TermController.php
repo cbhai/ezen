@@ -14,7 +14,9 @@ class TermController extends Controller
     {
         abort_if(Gate::denies('term_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $term = Term::where('owner_id', auth()->id())->first();
+        $isAdmin = auth()->user()->roles->contains(1);
+        if (!$isAdmin) {
+            $term = Term::where('owner_id', auth()->id())->first();
 
         if(empty($term)){
             return view('admin.term.create');
@@ -22,8 +24,9 @@ class TermController extends Controller
             $term->load('owner');
             return view('admin.term.show', compact('term'));
         }
-
-        //return view('admin.term.index');
+        }else{
+            return view('admin.term.index');
+        }
     }
 
     public function create()

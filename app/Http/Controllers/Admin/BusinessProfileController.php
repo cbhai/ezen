@@ -14,16 +14,20 @@ class BusinessProfileController extends Controller
     {
         abort_if(Gate::denies('business_profile_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $businessProfile = BusinessProfile::where('owner_id', auth()->id())->first();
+        $isAdmin = auth()->user()->roles->contains(1);
+        if (!$isAdmin) {
+            $businessProfile = BusinessProfile::where('owner_id', auth()->id())->first();
 
-        if(empty($businessProfile)){
-            return view('admin.business-profile.create');
+            if(empty($businessProfile)){
+                return view('admin.business-profile.create');
+            }else{
+                $businessProfile->load('owner');
+
+                return view('admin.business-profile.show', compact('businessProfile'));
+            }
         }else{
-            $businessProfile->load('owner');
-
-            return view('admin.business-profile.show', compact('businessProfile'));
+            return view('admin.business-profile.index');
         }
-        //return view('admin.business-profile.index');
     }
 
     public function create()
