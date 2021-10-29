@@ -10,7 +10,7 @@ use App\Models\Workitem;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SeedDataForNewUser
+class SeedDataForNewUser implements ShouldQueue
 {
     /**
      * Create the event listener.
